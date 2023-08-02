@@ -1,10 +1,11 @@
 import "./globals.css";
+import { ReactNode } from "react";
 
-const RootLayout = ({
-  children,
-}: {
-  children: React.ReactNode
-}) => {
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="en">
       <body>
