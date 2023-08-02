@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { NavBar }   from "./NavBar";
+import { Tag }      from "../Tag";
 
 export const Header = () => {
   return (
@@ -8,11 +9,9 @@ export const Header = () => {
       <header className="fixed w-full h-14 px-4 flex flex-row justify-center border-b border-gray-100">
         <div className="w-full max-w-[80em] flex flex-row items-center">
           <div className="flex-1 flex items-center justify-start">
-            <h1 className="text-gray-600">Portfolio</h1>
+            <Tag>Portfolio</Tag>
           </div>
-          <h1 className="font-bold">
-            Nazar Kharin
-          </h1>
+          <h1 className="font-bold">Nazar Kharin</h1>
           <div className="flex-1 flex items-center justify-end">
             <NavBar />
           </div>
