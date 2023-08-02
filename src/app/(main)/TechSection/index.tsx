@@ -75,7 +75,7 @@ export const TechSection = () => {
           </div>
           <div 
             ref       = {sectionRef} 
-            className = "absolute inset-0 -bottom-36" 
+            className = "absolute inset-0 -bottom-36 pointer-events-none" 
           />
         </div>
       </div>
