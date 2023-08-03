@@ -1,28 +1,17 @@
+import { Pexels }    from "@icons/Pexels";
+import { Instagram } from "@icons/Instagram";
+import { Telegram }  from "@icons/Telegram";
+import { YouTube }   from "@icons/YouTube";
+
 export const Footer = () => {
   return (
     <footer className="bg-gray-50 flex flex-row justify-center py-16 px-4">
       <div className="max-w-[80em] w-full flex flex-col gap-16">
-        <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-          <div className="flex flex-col gap-2">
-            <p className="text-sm">My phone number</p>
-            <h1 className="text-lg">+3809952222526</h1>
-          </div>
-          <div className="flex flex-col gap-2">
-            <p className="text-sm">My phone number</p>
-            <h1 className="text-lg">+3809952222526</h1>
-          </div>
-          <div className="flex flex-col gap-2">
-            <p className="text-sm">My phone number</p>
-            <h1 className="text-lg">+3809952222526</h1>
-          </div>
-          <div className="flex flex-col gap-2">
-            <p className="text-sm">My phone number</p>
-            <h1 className="text-lg">+3809952222526</h1>
-          </div>
-          <div className="flex flex-col gap-2">
-            <p className="text-sm">My phone number</p>
-            <h1 className="text-lg">+3809952222526</h1>
-          </div>
+        <div className="flex flex-row gap-8 justify-center items-center">
+          <Instagram className="text-4xl hover:scale-110 transition cursor-pointer" />
+          <Pexels className="text-4xl hover:scale-110 transition cursor-pointer"  />
+          <Telegram className="text-4xl hover:scale-110 transition cursor-pointer"  />
+          <YouTube className="text-4xl hover:scale-110 transition cursor-pointer"  />
         </div>
         <div className="text-center flex flex-col items-center text-gray-400">
           <p className="text-sm">Developed by</p>
