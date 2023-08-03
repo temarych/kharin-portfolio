@@ -1,4 +1,5 @@
 import { Section }         from "@components/Section";
+import { Footer }          from "@components/Footer";
 import { Showcase }        from "./Showcase";
 import { TechGrid }        from "./TechGrid";
 import { SkillGrid }       from "./SkillGrid";
@@ -23,8 +24,7 @@ const Home = () => {
       <Section title="Gallery">
         <GalleryShowcase />
       </Section>
-      <h1 className="text-center">Home</h1>
-      <div className="h-96" />
+      <Footer />
     </div>
   );
 };
