@@ -1,14 +1,13 @@
 "use client";
 
-import { ReactNode, useRef } from "react";
-import { motion, useScroll } from "framer-motion";
-import { Photoshop }         from "@icons/Photoshop";
-import { Illustrator }       from "@icons/Illustrator";
-import { Lightroom }         from "@icons/Lightroom";
-import { PremierePro }       from "@icons/PremierePro";
-import { AfterEffects }      from "@icons/AfterEffects";
-import { DaVinciResolve }    from "@icons/DaVinciResolve";
-import { TechMotion }        from "./TechMotion";
+import { ReactNode }      from "react";
+import { Photoshop }      from "@icons/Photoshop";
+import { Illustrator }    from "@icons/Illustrator";
+import { Lightroom }      from "@icons/Lightroom";
+import { PremierePro }    from "@icons/PremierePro";
+import { AfterEffects }   from "@icons/AfterEffects";
+import { DaVinciResolve } from "@icons/DaVinciResolve";
+import { TechMotion }     from "./TechMotion";
 
 export interface ITech {
   icon       : ReactNode;
@@ -50,33 +49,14 @@ export const techs: ITech[] = [
 ];
 
 export const TechSection = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({ 
-    target: sectionRef,
-    offset: ["start end", "end end"]
-  });
-
   return (
     <section className="w-full py-24 px-4 flex flex-row justify-center">
       <div className="w-full max-w-[80em] flex flex-col gap-16">
-        <motion.h1 className="font-bold text-3xl text-center">Technologies</motion.h1>
-        <div className="relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
-            {techs.map((tech, index) => (
-              <TechMotion
-                {...tech}
-                key             = {index}
-                order           = {index + 1}
-                amount          = {techs.length}
-                scrollYProgress = {scrollYProgress}
-              />
-            ))}
-          </div>
-          <div 
-            ref       = {sectionRef} 
-            className = "absolute inset-0 -bottom-36 pointer-events-none" 
-          />
+        <h1 className="font-bold text-3xl text-center">Technologies</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+          {techs.map((tech, index) => (
+            <TechMotion key={index} {...tech} />
+          ))}
         </div>
       </div>
     </section>
