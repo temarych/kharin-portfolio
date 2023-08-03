@@ -8,7 +8,7 @@ export interface ReviewProps {
 
 export const Review = ({ className }: ReviewProps) => {
   return (
-    <div className={twMerge(["relative border rounded-2xl p-6 min-h-[30em] flex flex-col gap-6", className])}>
+    <div className={twMerge(["relative border bg-white rounded-2xl p-6 min-h-[30em] flex flex-col gap-6", className])}>
       <Image
         alt       = "client"
         src       = "/client.png"

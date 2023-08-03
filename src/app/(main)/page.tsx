@@ -4,7 +4,6 @@ import { Showcase }        from "./Showcase";
 import { TechGrid }        from "./TechGrid";
 import { SkillGrid }       from "./SkillGrid";
 import { ReviewSlider }    from "./ReviewSlider";
-import { PhotoStrokes }    from "./PhotoStrokes";
 import { GalleryShowcase } from "./GalleryShowcase";
 
 const Home = () => {
@@ -17,12 +16,11 @@ const Home = () => {
       <Section title="Skills" isFilled>
         <SkillGrid />
       </Section>
-      <Section title="Reviews">
-        <ReviewSlider />
-      </Section>
-      <PhotoStrokes />
       <Section title="Gallery">
         <GalleryShowcase />
+      </Section>
+      <Section title="Reviews" isFilled>
+        <ReviewSlider />
       </Section>
       <Footer />
     </div>

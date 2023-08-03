@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export const Showcase = () => {
   return (
-    <section className="w-full px-4 bg-gray-50 flex flex-col gap-6 py-8 sm:flex-row sm:items-center sm:py-0 sm:gap-0">
+    <section className="w-full px-4 bg-gray-50 flex flex-col gap-6 py-24 sm:flex-row sm:items-center sm:py-0 sm:gap-0">
       <div className="flex-1 flex flex-row justify-center sm:justify-end">
         <Image 
           alt       = "portrait"
@@ -13,7 +13,7 @@ export const Showcase = () => {
         />
       </div>
       <div className="flex-1 flex flex-col gap-2 text-center sm:text-left">
-        <h1 className="font-bold text-4xl">Nazar Kharin</h1>
+        <h1 className="font-bold text-3xl">Nazar Kharin</h1>
         <p className="text-lg text-gray-400">Photographer</p>
       </div>
     </section>

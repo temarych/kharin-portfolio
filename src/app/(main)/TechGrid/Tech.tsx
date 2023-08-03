@@ -13,8 +13,8 @@ export const Tech = ({ icon, name, description }: TechProps) => {
         {icon}
       </div>
       <div className="flex-1 flex flex-col gap-2">
-        <h1 className="font-bold text-2xl">{name}</h1>
-        <p className="text-lg">{description}</p>
+        <h1 className="font-bold text-xl">{name}</h1>
+        <p className="text-md">{description}</p>
       </div>
     </div>
   );
