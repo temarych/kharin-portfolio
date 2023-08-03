@@ -39,7 +39,7 @@ export const techs: ITech[] = [
   },
   {
     icon       : <AfterEffects className="text-6xl" />,
-    name       : "After Effect",
+    name       : "After Effects",
     description: "I have good skills at After Effects and can easily edit your videos or those I took for you"
   },
   {
