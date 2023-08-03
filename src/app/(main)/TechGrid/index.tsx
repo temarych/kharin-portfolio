@@ -49,18 +49,12 @@ export const techs: ITech[] = [
   }
 ];
 
-export interface TechSectionProps {
-  isFilled?: boolean;
-}
-
-export const TechSection = ({ isFilled }: TechSectionProps) => {
+export const TechGrid = () => {
   return (
-    <Section title="Technologies" isFilled={isFilled}>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
-        {techs.map((tech, index) => (
-          <TechMotion key={index} {...tech} />
-        ))}
-      </div>
-    </Section>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+      {techs.map((tech, index) => (
+        <TechMotion key={index} {...tech} />
+      ))}
+    </div>
   );
 };
