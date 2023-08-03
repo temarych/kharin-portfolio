@@ -1,8 +1,10 @@
-import { Section }      from "@components/Section";
-import { Showcase }     from "./Showcase";
-import { TechGrid }     from "./TechGrid";
-import { SkillGrid }    from "./SkillGrid";
-import { ReviewSlider } from "./ReviewSlider";
+import { Section }         from "@components/Section";
+import { Showcase }        from "./Showcase";
+import { TechGrid }        from "./TechGrid";
+import { SkillGrid }       from "./SkillGrid";
+import { ReviewSlider }    from "./ReviewSlider";
+import { PhotoStrokes }    from "./PhotoStrokes";
+import { GalleryShowcase } from "./GalleryShowcase";
 
 const Home = () => {
   return (
@@ -17,7 +19,12 @@ const Home = () => {
       <Section title="Reviews">
         <ReviewSlider />
       </Section>
+      <PhotoStrokes />
+      <Section title="Gallery">
+        <GalleryShowcase />
+      </Section>
       <h1 className="text-center">Home</h1>
+      <div className="h-96" />
     </div>
   );
 };
