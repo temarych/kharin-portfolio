@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode }      from "react";
+import { Section }        from "@components/Section";
 import { Photoshop }      from "@icons/Photoshop";
 import { Illustrator }    from "@icons/Illustrator";
 import { Lightroom }      from "@icons/Lightroom";
@@ -48,17 +49,18 @@ export const techs: ITech[] = [
   }
 ];
 
-export const TechSection = () => {
+export interface TechSectionProps {
+  isFilled?: boolean;
+}
+
+export const TechSection = ({ isFilled }: TechSectionProps) => {
   return (
-    <section className="w-full py-24 px-4 flex flex-row justify-center">
-      <div className="w-full max-w-[80em] flex flex-col gap-16">
-        <h1 className="font-bold text-3xl text-center">Technologies</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
-          {techs.map((tech, index) => (
-            <TechMotion key={index} {...tech} />
-          ))}
-        </div>
+    <Section title="Technologies" isFilled={isFilled}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+        {techs.map((tech, index) => (
+          <TechMotion key={index} {...tech} />
+        ))}
       </div>
-    </section>
+    </Section>
   );
 };
