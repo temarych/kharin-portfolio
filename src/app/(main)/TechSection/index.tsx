@@ -62,7 +62,7 @@ export const TechSection = () => {
       <div className="w-full max-w-[80em] flex flex-col gap-16">
         <motion.h1 className="font-bold text-3xl text-center">Technologies</motion.h1>
         <div className="relative">
-          <div className="grid grid-cols-3 gap-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
             {techs.map((tech, index) => (
               <TechMotion
                 {...tech}
