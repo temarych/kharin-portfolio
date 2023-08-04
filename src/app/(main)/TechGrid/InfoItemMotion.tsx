@@ -1,11 +1,10 @@
 import { useRef }                          from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Tech }                            from "./Tech";
-import { ITech }                           from ".";
+import { InfoItem, InfoItemProps }         from "@components/InfoItem";
 
-export type TechMotionProps = ITech;
+export type InfoItemMotionProps = InfoItemProps;
 
-export const TechMotion = ({ ...props }: TechMotionProps) => {
+export const InfoItemMotion = ({ ...props }: InfoItemMotionProps) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -18,7 +17,7 @@ export const TechMotion = ({ ...props }: TechMotionProps) => {
 
   return (
     <motion.div ref={wrapperRef} style={{ scale, opacity }}>
-      <Tech {...props} />
+      <InfoItem {...props} />
     </motion.div>
   );
 };

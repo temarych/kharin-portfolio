@@ -1,14 +1,14 @@
 "use client";
 
 import { ReactNode }      from "react";
-import { Section }        from "@components/Section";
 import { Photoshop }      from "@icons/Photoshop";
 import { Illustrator }    from "@icons/Illustrator";
 import { Lightroom }      from "@icons/Lightroom";
 import { PremierePro }    from "@icons/PremierePro";
 import { AfterEffects }   from "@icons/AfterEffects";
 import { DaVinciResolve } from "@icons/DaVinciResolve";
-import { TechMotion }     from "./TechMotion";
+import { InfoItemMotion } from "./InfoItemMotion";
+import { GridWrapper }    from "./GridWrapper";
 
 export interface ITech {
   icon       : ReactNode;
@@ -51,10 +51,10 @@ export const techs: ITech[] = [
 
 export const TechGrid = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+    <GridWrapper>
       {techs.map((tech, index) => (
-        <TechMotion key={index} {...tech} />
+        <InfoItemMotion key={index} {...tech} />
       ))}
-    </div>
+    </GridWrapper>
   );
 };

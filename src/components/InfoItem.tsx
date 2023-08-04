@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 
-export interface TechProps {
+export interface InfoItemProps {
   icon       : ReactNode;
   name       : string;
   description: string;
 }
 
-export const Tech = ({ icon, name, description }: TechProps) => {
+export const InfoItem = ({ icon, name, description }: InfoItemProps) => {
   return (
     <div className="flex flex-row gap-6 flex-1">
       <div className="flex-0">
