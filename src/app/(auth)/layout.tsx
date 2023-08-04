@@ -7,8 +7,8 @@ interface AuthLayoutProps {
 
 const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
-    <div className="grid grid-cols-2 min-h-screen">
-      <div className="relative">
+    <div className="grid grid-cols-1 sm:grid-cols-2 min-h-screen">
+      <div className="relative bg-gray-50 hidden sm:flex">
         <Image 
           fill
           alt       = "auth-bg"
