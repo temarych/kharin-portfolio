@@ -5,13 +5,13 @@ import { useScroll }    from "framer-motion";
 import { GalleryPhoto } from "./GalleryPhoto";
 
 export const photos: string[] = [
-  "photo1",
-  "photo2",
-  "photo3",
-  "photo4",
-  "photo5",
-  "photo6",
-  "photo7"
+  "/gallery-photo-1.jpg",
+  "/gallery-photo-2.jpg",
+  "/gallery-photo-3.jpg",
+  "/gallery-photo-4.jpg",
+  "/gallery-photo-5.jpg",
+  "/gallery-photo-6.jpg",
+  "/gallery-photo-7.jpg"
 ];
 
 export const GalleryPreview = () => {
@@ -31,6 +31,7 @@ export const GalleryPreview = () => {
             amount          = {photos.length}
             scrollYProgress = {scrollYProgress} 
             className       = "absolute"
+            src             = {photo}
           />
         </div>
       ))}
