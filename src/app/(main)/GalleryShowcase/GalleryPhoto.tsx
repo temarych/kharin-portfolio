@@ -15,7 +15,7 @@ export const GalleryPhoto = ({ scrollYProgress, order, amount, className }: Gall
 
   return (
     <motion.div 
-      className = {twMerge(["min-w-[20em] min-h-[30em] bg-gray-100 rounded-2xl border", className])} 
+      className = {twMerge(["min-w-[20em] min-h-[25em] bg-gray-100 rounded-2xl border", className])} 
       style     = {{ y, rotate: "-12deg" }} 
     />
   );
