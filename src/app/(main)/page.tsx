@@ -1,3 +1,7 @@
+"use client";
+
+import { useRef }          from "react";
+import { useInView }       from "framer-motion";
 import { Section }         from "@components/Section";
 import { Footer }          from "@components/Footer";
 import { Showcase }        from "./Showcase";
@@ -6,11 +10,15 @@ import { SkillGrid }       from "./SkillGrid";
 import { ReviewSlider }    from "./ReviewSlider";
 import { GalleryShowcase } from "./GalleryShowcase";
 import { TraitGrid }       from "./TraitGrid";
+import { AnchorMask }      from  "./AnchorMask";
 
 const Home = () => {
+  const showcaseRef      = useRef<HTMLElement>(null);
+  const isShowcaseInView = useInView(showcaseRef);
+
   return (
     <div className="flex flex-col">
-      <Showcase />
+      <Showcase ref={showcaseRef} />
       <Section title="Technologies">
         <TechGrid />
       </Section>
@@ -27,6 +35,7 @@ const Home = () => {
         <GalleryShowcase />
       </Section>
       <Footer />
+      <AnchorMask isAnchorShown={!isShowcaseInView} />
     </div>
   );
 };
