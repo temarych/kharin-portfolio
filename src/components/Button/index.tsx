@@ -12,7 +12,7 @@ const ButtonWithRef = (
   ref                              : ForwardedRef<HTMLButtonElement>
 ) => {
   return (
-    <button {...props} ref={ref} className={twMerge(["rounded-lg px-6 py-3 bg-sky-400 text-white", className])}>
+    <button {...props} ref={ref} className={twMerge(["rounded-lg px-6 py-3 bg-sky-400 hover:bg-sky-500 active:bg-sky-600 text-white transition", className])}>
       {children}
     </button>
   );
