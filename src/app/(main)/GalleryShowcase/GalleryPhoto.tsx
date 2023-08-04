@@ -22,7 +22,7 @@ export const GalleryPhoto = ({ scrollYProgress, order, amount, className, src }:
     >
       <Image 
         fill
-        loading   = "eager"
+        loading   = "lazy"
         quality   = {10}
         alt       = "gallery-photo"
         src       = {src}
