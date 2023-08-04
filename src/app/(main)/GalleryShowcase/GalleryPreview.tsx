@@ -7,7 +7,11 @@ import { GalleryPhoto } from "./GalleryPhoto";
 export const photos: string[] = [
   "photo1",
   "photo2",
-  "photo3"
+  "photo3",
+  "photo4",
+  "photo5",
+  "photo6",
+  "photo7"
 ];
 
 export const GalleryPreview = () => {
@@ -19,14 +23,16 @@ export const GalleryPreview = () => {
   });
 
   return (
-    <div ref={wrapperRef} className="flex flex-row items-center justify-center overflow-x-clip w-full">
+    <div ref={wrapperRef} className="flex flex-row items-center justify-center w-full">
       {photos.map((photo, index) => (
-        <GalleryPhoto 
-          key             = {photo} 
-          order           = {index + 1}
-          amount          = {photos.length}
-          scrollYProgress = {scrollYProgress} 
-        />
+        <div key={photo} className="relative flex-1 flex flex-row items-center justify-center min-h-[35em]">
+          <GalleryPhoto 
+            order           = {index + 1}
+            amount          = {photos.length}
+            scrollYProgress = {scrollYProgress} 
+            className       = "absolute"
+          />
+        </div>
       ))}
     </div>
   );
