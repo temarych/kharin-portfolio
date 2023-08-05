@@ -3,10 +3,10 @@
 import { useTransition } from "react";
 import { useForm }       from "react-hook-form";
 import { z }             from "zod";
+import { signIn }        from "next-auth/react";
 import { zodResolver }   from "@hookform/resolvers/zod";
 import { Form }          from "@components/Form";
 import { LoadingButton } from "@components/LoadingButton";
-import { createUser }    from "./createUser";
 
 export const incompleteLoginFormSchema = z.object({
   email   : z.string().nonempty(),
@@ -47,8 +47,7 @@ export const LoginForm = () => {
         isLoading = {isPending}
         onClick   = {handleSubmit(values => {
           startTransition(async () => {
-            const user = await createUser(values);
-            console.log(user);
+            await signIn("credentials", { redirect: false, ...values });
           });
         })}
       >
