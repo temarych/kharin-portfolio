@@ -1,8 +1,29 @@
-import { Link }   from "@components/Link";
-import { Button } from "@components/Button";
-import { Input }  from "@components/Input";
+"use client";
+
+import { z }           from "zod";
+import { useForm }     from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Link }        from "@components/Link";
+import { Button }      from "@components/Button";
+import { Input }       from "@components/Input";
+
+export const incompleteLoginFormSchema = z.object({
+  email   : z.string().nonempty(),
+  password: z.string().nonempty()
+});
+
+export type IIncompleteLoginFormSchema = z.infer<typeof incompleteLoginFormSchema>;
+export type ICompleteLoginFormSchema   = IIncompleteLoginFormSchema;
 
 const Login = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm<ICompleteLoginFormSchema, unknown, IIncompleteLoginFormSchema>({
+    defaultValues: {
+      email   : "",
+      password: ""
+    },
+    resolver     : zodResolver(incompleteLoginFormSchema)
+  });
+
   return (
     <div className="w-full h-full flex flex-col items-center px-4 py-8">
       <div className="w-full flex-1 flex flex-col justify-start">
@@ -12,10 +33,25 @@ const Login = () => {
         <h1 className="font-bold text-4xl text-center">Login</h1>
         <div className="flex flex-col gap-10">
           <div className="flex flex-col gap-4">
-            <Input placeholder="Email" />
-            <Input placeholder="Password" type="password" />
+            <Input 
+              placeholder = "Email" 
+              hasError    = {!!errors.email} 
+              helperText  = {errors.email?.message} 
+              {...register("email")} 
+            />
+            <Input 
+              placeholder = "Password" 
+              type        = "password" 
+              hasError    = {!!errors.password} 
+              helperText  = {errors.password?.message} 
+              {...register("password")} 
+            />
           </div>
-          <Button>
+          <Button 
+            onClick={handleSubmit(values => {
+              console.log(values);
+            })}
+          >
             Log in
           </Button>
         </div>
