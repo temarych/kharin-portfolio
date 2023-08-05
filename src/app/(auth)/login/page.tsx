@@ -1,7 +1,7 @@
 import { Link }      from "@components/Link";
 import { LoginForm } from "./LoginForm";
 
-const Login = async () => {
+const Login = () => {
   return (
     <div className="w-full h-full flex flex-col items-center px-4 py-8">
       <div className="w-full flex-1 flex flex-col justify-start">
