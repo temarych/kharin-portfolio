@@ -1,10 +1,12 @@
 "use client";
 
-import { useForm }     from "react-hook-form";
-import { z }           from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form }        from "@components/Form";
-import { Button }      from "@components/Button";
+import { useTransition } from "react";
+import { useForm }       from "react-hook-form";
+import { z }             from "zod";
+import { zodResolver }   from "@hookform/resolvers/zod";
+import { Form }          from "@components/Form";
+import { LoadingButton } from "@components/LoadingButton";
+import { createUser }    from "./createUser";
 
 export const incompleteLoginFormSchema = z.object({
   email   : z.string().nonempty(),
@@ -15,6 +17,8 @@ export type IIncompleteLoginFormSchema = z.infer<typeof incompleteLoginFormSchem
 export type ICompleteLoginFormSchema   = IIncompleteLoginFormSchema;
 
 export const LoginForm = () => {
+  const [isPending, startTransition] = useTransition();
+
   const { control, handleSubmit } = useForm<ICompleteLoginFormSchema, unknown, IIncompleteLoginFormSchema>({
     defaultValues: {
       email   : "",
@@ -38,13 +42,18 @@ export const LoginForm = () => {
           type        = "password" 
         />
       </div>
-      <Button
-        onClick={handleSubmit(values => {
-          console.log(values);
+      <LoadingButton
+        disabled  = {isPending}
+        isLoading = {isPending}
+        onClick   = {handleSubmit(values => {
+          startTransition(async () => {
+            const user = await createUser(values);
+            console.log(user);
+          });
         })}
       >
         Log in
-      </Button>
+      </LoadingButton>
     </div>
   );
 };
