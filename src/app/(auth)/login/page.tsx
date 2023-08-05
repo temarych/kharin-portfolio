@@ -5,7 +5,7 @@ import { useForm }     from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link }        from "@components/Link";
 import { Button }      from "@components/Button";
-import { Input }       from "@components/Input";
+import { Form }        from "@components/Form";
 
 export const incompleteLoginFormSchema = z.object({
   email   : z.string().nonempty(),
@@ -16,7 +16,7 @@ export type IIncompleteLoginFormSchema = z.infer<typeof incompleteLoginFormSchem
 export type ICompleteLoginFormSchema   = IIncompleteLoginFormSchema;
 
 const Login = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<ICompleteLoginFormSchema, unknown, IIncompleteLoginFormSchema>({
+  const { control, handleSubmit } = useForm<ICompleteLoginFormSchema, unknown, IIncompleteLoginFormSchema>({
     defaultValues: {
       email   : "",
       password: ""
@@ -33,18 +33,16 @@ const Login = () => {
         <h1 className="font-bold text-4xl text-center">Login</h1>
         <div className="flex flex-col gap-10">
           <div className="flex flex-col gap-4">
-            <Input 
+            <Form.Input 
+              name    = "email"
+              control = {control}
               placeholder = "Email" 
-              hasError    = {!!errors.email} 
-              helperText  = {errors.email?.message} 
-              {...register("email")} 
             />
-            <Input 
+            <Form.Input 
+              name        = "password"
+              control     = {control}
               placeholder = "Password" 
               type        = "password" 
-              hasError    = {!!errors.password} 
-              helperText  = {errors.password?.message} 
-              {...register("password")} 
             />
           </div>
           <Button 

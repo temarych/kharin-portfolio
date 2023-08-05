@@ -1,47 +1,71 @@
-import { forwardRef }                from "react";
-import { twMerge }                   from "tailwind-merge";
-import { BaseInput, BaseInputProps } from "./BaseInput";
+"use client";
 
-export type InputHelperTextColor = "sky" | "red" | "gray";
+import { ChangeEvent, InputHTMLAttributes, forwardRef, useState } from "react";
+import { Field, FieldProps }                                      from "../Field";
+import { twMerge } from "tailwind-merge";
 
-export type InputHelperTextColorMap = {
-  [color in InputHelperTextColor]: string;
-}
-
-export const helperTextColorMap: InputHelperTextColorMap = {
-  sky : "text-sky-400",
-  red : "text-red-400",
-  gray: "text-gray-400"
-};
-
-export interface InputProps extends BaseInputProps {
-  helperText?     : string;
-  helperTextColor?: InputHelperTextColor;
-  hasError?       : boolean;
+export interface InputProps extends Omit<FieldProps & InputHTMLAttributes<HTMLInputElement>, "children" | "isFocused" | "value" | "onChange" | "defaultValue"> {
+  value?       : string;
+  defaultValue?: string;
+  onChange?    : (event: ChangeEvent<HTMLInputElement>, value: string) => void;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(({
-  helperText, hasError, 
-  outlineColor    = hasError ? "red" : "gray", 
-  focusColor      = hasError ? "red" : "sky", 
-  helperTextColor = hasError ? "red" : "gray",
+  className, 
+  leftAdornment, 
+  rightAdornment, 
+  helperText,
+  hasError,
+  helperTextColor,
+  outlineColor, 
+  focusColor,
+  onChange,
+  onBlur,
+  onFocus,
+  value       : propValue, 
+  defaultValue: propDefaultValue,
   ...props
 }, ref) => {
-  const helperTextColorStyles = helperTextColorMap[helperTextColor];
+  const isControlled                = propValue !== undefined;
+  const defaultValue                = propDefaultValue ?? "";
+  const [isFocused, setIsFocused]   = useState(false);
+  const [innerValue, setInnerValue] = useState(defaultValue);
+  const value                       = isControlled ? propValue : innerValue;
 
   return (
-    <div className="flex flex-col gap-2">
-      <BaseInput 
+    <Field 
+      leftAdornment   = {leftAdornment}
+      rightAdornment  = {rightAdornment}
+      className       = {className}
+      helperText      = {helperText}
+      hasError        = {hasError}
+      helperTextColor = {helperTextColor}
+      outlineColor    = {outlineColor}
+      focusColor      = {focusColor}
+      isFocused       = {isFocused}
+    >
+      <input 
         {...props} 
-        ref          = {ref} 
-        outlineColor = {outlineColor} 
-        focusColor   = {focusColor} 
+        ref       = {ref} 
+        className = {twMerge([
+          "w-full h-full flex flex-row items-center outline-none",
+          leftAdornment ? "pl-[3em]" : "pl-4",
+          rightAdornment ? "pr-[3em]" : "pr-4"
+        ])}
+        value     = {value}
+        onChange  = {event => {
+          !isControlled && setInnerValue(event.target.value);
+          onChange && onChange(event, value);
+        }}
+        onFocus   = {event => {
+          setIsFocused(true);
+          onFocus && onFocus(event);
+        }}
+        onBlur    = {event => {
+          setIsFocused(false);
+          onBlur && onBlur(event);
+        }}
       />
-      {helperText && (
-        <h1 className={twMerge(["text-sm pl-6", helperTextColorStyles])}>
-          {helperText}
-        </h1>
-      )}
-    </div>
+    </Field>
   );
 });
