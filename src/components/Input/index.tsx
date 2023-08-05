@@ -50,7 +50,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
         className = {twMerge([
           "w-full h-full flex flex-row items-center outline-none",
           leftAdornment ? "pl-[3em]" : "pl-4",
-          rightAdornment ? "pr-[3em]" : "pr-4"
+          rightAdornment ? "pr-[3em]" : "pr-4",
+          hasError ? "placeholder:text-red-400" : null
         ])}
         value     = {value}
         onChange  = {event => {
