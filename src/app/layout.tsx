@@ -1,15 +1,21 @@
 import "./globals.css";
-import { ReactNode } from "react";
+import { ReactNode }        from "react";
+import { getServerSession } from "next-auth";
+import { Providers }        from "@components/Providers";
 
 interface RootLayoutProps {
   children: ReactNode;
 }
 
-const RootLayout = ({ children }: RootLayoutProps) => {
+const RootLayout = async ({ children }: RootLayoutProps) => {
+  const session = await getServerSession();
+
   return (
     <html lang="en">
       <body>
-        {children}
+        <Providers session={session}>
+          {children}
+        </Providers>
       </body>
     </html>
   );
