@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { twMerge }   from "tailwind-merge";
 
 export type FieldOutlineColor    = "sky" | "red" | "gray";
-export type FieldFocusColor      = "sky" | "red";
+export type FieldFocusColor      = "sky" | "red" | "black";
 export type FieldHelperTextColor = "sky" | "red" | "gray";
 
 export type FieldOutlineColorMap = {
@@ -30,8 +30,9 @@ export const outlineColorMap: FieldOutlineColorMap = {
 };
 
 export const focusColorMap: FieldFocusColorMap = {
-  sky: "border-sky-400 ring-sky-400 hover:border-sky-400",
-  red: "border-red-400 ring-red-400 hover:border-red-400"
+  sky  : "border-sky-400 ring-sky-400 hover:border-sky-400",
+  red  : "border-red-400 ring-red-400 hover:border-red-400",
+  black: "border-gray-800 ring-gray-800 hover:border-gray-800"
 };
 
 export interface FieldProps {
@@ -57,7 +58,7 @@ export const Field = ({
   hasError,
   helperTextColor = hasError ? "red" : "gray",
   outlineColor    = hasError ? "red" : "gray", 
-  focusColor      = hasError ? "red" : "sky"
+  focusColor      = hasError ? "red" : "black"
 }: FieldProps) => {
   const outlineColorStyles    = outlineColorMap[outlineColor];
   const focusColorStyles      = focusColorMap[focusColor];
