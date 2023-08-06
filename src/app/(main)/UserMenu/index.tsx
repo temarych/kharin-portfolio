@@ -1,19 +1,19 @@
 "use client";
 
 import { Fragment, ReactNode } from "react";
-import { useRouter } from "next/navigation";
-import { signOut }   from "next-auth/react";
-import { Menu, Transition }      from "@headlessui/react";
+import { useRouter }           from "next/navigation";
+import { signOut }             from "next-auth/react";
+import { Menu, Transition }    from "@headlessui/react";
 import { 
   HiOutlineChartBar, 
   HiOutlineLogout, 
   HiOutlineUser 
-}                    from "react-icons/hi";
-import { useAuth }   from "@hooks/useAuth";
-import { User }      from "@prisma/client";
-import { List }      from "@components/List";
-import { Avatar }    from "@components/Avatar";
-import { Divider }   from "@components/Divider";
+}                              from "react-icons/hi";
+import { useAuth }             from "@hooks/useAuth";
+import { User }                from "@prisma/client";
+import { List }                from "@components/List";
+import { Avatar }              from "@components/Avatar";
+import { Divider }             from "@components/Divider";
 
 export interface IRoute {
   name: string;
@@ -79,7 +79,7 @@ export const UserMenu = () => {
                   <Divider className="my-3" />
                   <Menu.Item>
                     {({ active }) => (
-                      <List.ItemWrapper onClick={() => signOut()}>
+                      <List.ItemWrapper onClick={() => signOut({ redirect: false })}>
                         <List.ItemButton isSelected={active} color="red">
                           <List.ItemContent leftAdornment={<HiOutlineLogout />}>
                             Log out
