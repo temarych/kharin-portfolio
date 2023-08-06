@@ -18,7 +18,7 @@ export const Header = () => {
             <Tag>Portfolio</Tag>
           </div>
           <h1 className="font-bold">Nazar Kharin</h1>
-          <div className="flex-1 flex items-center justify-end gap-4">
+          <div className="flex-1 flex items-center justify-end gap-2">
             <NavBar />
             {isAuthorized && <UserMenu />}
           </div>
