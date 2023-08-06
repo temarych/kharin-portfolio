@@ -1,6 +1,8 @@
 const Gallery = () => {
   return (
-    <h1 className="text-center">Gallery</h1>
+    <div className="pt-16">
+      <h1 className="text-center">Gallery</h1>
+    </div>
   );
 };
 

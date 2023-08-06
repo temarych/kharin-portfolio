@@ -17,7 +17,7 @@ const Home = () => {
   const isShowcaseInView = useInView(showcaseRef);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pt-16">
       <Showcase ref={showcaseRef} />
       <Section title="Technologies">
         <TechGrid />

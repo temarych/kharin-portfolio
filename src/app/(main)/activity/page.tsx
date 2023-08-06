@@ -11,7 +11,9 @@ const Activity = () => {
   }
 
   return (
-    <h1 className="text-center">Activity</h1>
+    <div className="pt-16">
+      <h1 className="text-center">Activity</h1>
+    </div>
   );
 };
 
