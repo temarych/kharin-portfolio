@@ -1,10 +1,12 @@
-import { getServerSession } from "next-auth";
-import { redirect }         from "next/navigation";
+"use client";
 
-const Activity = async () => {
-  const session = await getServerSession();
+import { redirect } from "next/navigation";
+import { useAuth }  from "@hooks/useAuth";
 
-  if (!session || !session.user) {
+const Activity = () => {
+  const { isAuthorized } = useAuth();
+
+  if (!isAuthorized) {
     redirect("/login");
   }
 
