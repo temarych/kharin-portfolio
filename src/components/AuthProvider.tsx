@@ -2,8 +2,8 @@
 
 import { ReactNode, createContext, useEffect, useState, useTransition } from "react";
 import { useSession }                                                   from "next-auth/react";
-import { User }                                                         from "@prisma/client";
 import { getUser }                                                      from "@utils/user";
+import { User }                                                         from "@typings/user";
 
 export interface IAuthContext {
   user     : User | null;

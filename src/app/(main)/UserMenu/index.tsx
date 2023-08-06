@@ -9,7 +9,7 @@ import {
   HiOutlineLogout, 
   HiOutlineUser 
 }                              from "react-icons/hi";
-import { User }                from "@prisma/client";
+import { User }                from "@typings/user";
 import { List }                from "@components/List";
 import { Avatar }              from "@components/Avatar";
 import { Divider }             from "@components/Divider";

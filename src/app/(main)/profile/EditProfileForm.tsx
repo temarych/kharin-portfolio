@@ -11,8 +11,7 @@ import { LoadingButton } from "@components/LoadingButton";
 export const editProfileFormSchema = z.object({
   firstName: z.string().nonempty(),
   lastName : z.string().nonempty(),
-  email    : z.string().nonempty().email(),
-  password : z.string().nonempty()
+  email    : z.string().nonempty().email()
 });
 
 export type ICompleteEditProfileSchema   = z.infer<typeof editProfileFormSchema>;
@@ -26,7 +25,6 @@ export const EditProfileForm = () => {
       firstName: "",
       lastName : "",
       email    : "",
-      password : "",
       ...user
     },
     resolver: zodResolver(editProfileFormSchema)
