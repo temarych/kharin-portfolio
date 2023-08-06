@@ -1,11 +1,8 @@
 import { useContext }  from "react";
-import { useSession }  from "next-auth/react";
 import { AuthContext } from "@components/AuthProvider";
 
 export const useAuth = () => {
-  const { status }   = useSession();
-  const { user }     = useContext(AuthContext);
-  const isAuthorized = status === "authenticated";
-  const isLoading    = status === "loading";
+  const { user, isLoading } = useContext(AuthContext);
+  const isAuthorized        = !!user;
   return { user, isAuthorized, isLoading };
 };

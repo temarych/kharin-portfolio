@@ -9,7 +9,6 @@ import {
   HiOutlineLogout, 
   HiOutlineUser 
 }                              from "react-icons/hi";
-import { useAuth }             from "@hooks/useAuth";
 import { User }                from "@prisma/client";
 import { List }                from "@components/List";
 import { Avatar }              from "@components/Avatar";
@@ -34,10 +33,12 @@ export const routes: IRoute[] = [
   }
 ];
 
-export const UserMenu = () => {
-  const auth   = useAuth();
+export interface UserMenuProps {
+  user: User;
+}
+
+export const UserMenu = ({ user }: UserMenuProps) => {
   const router = useRouter();
-  const user   = auth.user as User;
 
   return (
     <Menu>

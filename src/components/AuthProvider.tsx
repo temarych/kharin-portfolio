@@ -6,11 +6,13 @@ import { User }                                                         from "@p
 import { getUser }                                                      from "@utils/user";
 
 export interface IAuthContext {
-  user: User | null;
+  user     : User | null;
+  isLoading: boolean;
 }
 
 export const AuthContext = createContext<IAuthContext>({
-  user: null
+  user     : null,
+  isLoading: false
 });
 
 export interface AuthProviderProps {
@@ -20,6 +22,7 @@ export interface AuthProviderProps {
 
 export const AuthProvider = ({ user: propUser, children }: AuthProviderProps) => {
   const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading]    = useState(false);
   const session                      = useSession();
   const [user, setUser]              = useState<User | null>(propUser);
   const sessionEmail                 = session.data?.user?.email ?? null;
@@ -27,18 +30,25 @@ export const AuthProvider = ({ user: propUser, children }: AuthProviderProps) =>
 
   useEffect(
     () => {
-      if (sessionEmail && sessionEmail !== userEmail) {
-        startTransition(async () => {
-          const newUser = await getUser(sessionEmail);
-          setUser(newUser);
-        });
+      if (!sessionEmail) {
+        setUser(null);
+        return;
       }
+      if (sessionEmail === userEmail) {
+        return;
+      }
+      startTransition(async () => {
+        setIsLoading(true);
+        const newUser = await getUser(sessionEmail);
+        setUser(newUser);
+        setIsLoading(false);
+      });
     },
     [sessionEmail, userEmail]
   );
 
   return (
-    <AuthContext.Provider value={{ user }}>
+    <AuthContext.Provider value={{ user, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

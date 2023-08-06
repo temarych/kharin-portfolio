@@ -7,7 +7,7 @@ import { NavBar }   from "./NavBar";
 import { UserMenu } from "../UserMenu";
 
 export const Header = () => {
-  const { isAuthorized } = useAuth();
+  const { user } = useAuth();
 
   return (
     <Fragment>
@@ -20,7 +20,7 @@ export const Header = () => {
           <h1 className="font-bold">Nazar Kharin</h1>
           <div className="flex-1 flex items-center justify-end gap-2">
             <NavBar />
-            {isAuthorized && <UserMenu />}
+            {user && <UserMenu user={user} />}
           </div>
         </div>
       </header>
