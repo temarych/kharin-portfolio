@@ -1,14 +1,43 @@
 "use client";
 
-import { twMerge } from "tailwind-merge";
-import { Avatar }  from "@components/Avatar";
-import { Menu }    from "@headlessui/react";
-import { useAuth } from "@hooks/useAuth";
-import { User }    from "@prisma/client";
+import { ReactNode } from "react";
+import { useRouter } from "next/navigation";
+import { signOut }   from "next-auth/react";
+import { Menu }      from "@headlessui/react";
+import { 
+  HiOutlineChartBar, 
+  HiOutlineLogout, 
+  HiOutlineUser 
+}                    from "react-icons/hi";
+import { useAuth }   from "@hooks/useAuth";
+import { User }      from "@prisma/client";
+import { List }      from "@components/List";
+import { Avatar }    from "@components/Avatar";
+import { Divider }   from "@components/Divider";
+
+export interface IRoute {
+  name: string;
+  icon: ReactNode;
+  path: string;
+}
+
+export const routes: IRoute[] = [
+  {
+    name: "Profile",
+    icon: <HiOutlineUser />,
+    path: "/profile"
+  },
+  {
+    name: "Activity",
+    icon: <HiOutlineChartBar />,
+    path: "/activity"
+  }
+];
 
 export const UserMenu = () => {
-  const auth = useAuth();
-  const user = auth.user as User;
+  const auth   = useAuth();
+  const router = useRouter();
+  const user   = auth.user as User;
 
   return (
     <Menu as="div" className="relative flex flex-col">
@@ -21,26 +50,33 @@ export const UserMenu = () => {
             <h1 className="font-bold text-md">{user.firstName} {user.lastName}</h1>
             <p className="text-gray-400 text-sm">{user.email}</p>
           </div>
-          <ul className="py-3">
-            {["Profile", "Activity", "Settings"].map(name => (
-              <Menu.Item key={name}>
+          <List className="py-3">
+            {routes.map(route => (
+              <Menu.Item key={route.name}>
                 {({ active }) => (
-                  <li className={twMerge(["px-6 py-2 cursor-pointer", active ? "bg-gray-100" : null])}>
-                    {name}
-                  </li>
+                  <List.ItemWrapper onClick={() => router.push(route.path)}>
+                    <List.ItemButton isSelected={active}>
+                      <List.ItemContent leftAdornment={route.icon}>
+                        {route.name}
+                      </List.ItemContent>
+                    </List.ItemButton>
+                  </List.ItemWrapper>
                 )}
               </Menu.Item>
             ))}
-          </ul>
-          <div className="py-3 border-t flex flex-col">
+            <Divider className="my-3" />
             <Menu.Item>
               {({ active }) => (
-                <p className={twMerge(["px-6 py-2 cursor-pointer", active ? "bg-gray-100" : null])}>
-                  Log out
-                </p>
+                <List.ItemWrapper onClick={() => signOut()}>
+                  <List.ItemButton isSelected={active} color="red">
+                    <List.ItemContent leftAdornment={<HiOutlineLogout />}>
+                      Log out
+                    </List.ItemContent>
+                  </List.ItemButton>
+                </List.ItemWrapper>
               )}
             </Menu.Item>
-          </div>
+          </List>
         </Menu.Items>
       </div>
     </Menu>
