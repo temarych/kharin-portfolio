@@ -1,5 +1,7 @@
-import { HiOutlineHeart, HiOutlineHome, HiOutlineUser } from "react-icons/hi";
-import { IconButton }                                   from "../IconButton";
+"use client";
+
+import { HiOutlineCamera, HiOutlineHeart, HiOutlineHome } from "react-icons/hi";
+import { IconButton }                                     from "@components/IconButton";
 
 export const NavBar = () => {
   return (
@@ -11,7 +13,7 @@ export const NavBar = () => {
         <HiOutlineHeart className="text-xl" />
       </IconButton>
       <IconButton>
-        <HiOutlineUser className="text-xl" />
+        <HiOutlineCamera className="text-xl" />
       </IconButton>
     </div>
   );

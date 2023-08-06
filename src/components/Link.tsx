@@ -10,6 +10,6 @@ export interface LinkProps {
 
 export const Link = ({ className, ...props }: LinkProps) => {
   return (
-    <NextLink {...props} className={twMerge(["text-sky-400 underline decoration-sky-200 hover:decoration-sky-400", className])} />
+    <NextLink {...props} className={twMerge(["text-gray-600 underline decoration-gray-400 hover:text-gray-800 hover:decoration-gray-800", className])} />
   );
 };

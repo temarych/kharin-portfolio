@@ -3,7 +3,7 @@
 import { useRef }          from "react";
 import { useInView }       from "framer-motion";
 import { Section }         from "@components/Section";
-import { Footer }          from "@components/Footer";
+import { Footer }          from "./Footer";
 import { Showcase }        from "./Showcase";
 import { TechGrid }        from "./TechGrid";
 import { SkillGrid }       from "./SkillGrid";

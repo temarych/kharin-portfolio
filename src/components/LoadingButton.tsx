@@ -13,13 +13,14 @@ export type ColorMap = {
 export const colorMap: ColorMap = {
   sky  : "white",
   red  : "white",
-  green: "white"
+  green: "white",
+  black: "white"
 };
 
 export const LoadingButton = forwardRef<HTMLButtonElement, LoadingButtonProps>(({
   children,
   isLoading,
-  color = "sky",
+  color = "black",
   disabled,
   ...props
 }, ref) => {

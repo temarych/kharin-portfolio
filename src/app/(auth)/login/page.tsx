@@ -14,7 +14,7 @@ const Login = () => {
       <div className="w-full flex-1 flex flex-col justify-end">
         <p className="text-md text-gray-400 text-center">
           {"If you're not admin, please head back to the "}
-          <Link href="/" className="text-sky-400">home page</Link>
+          <Link href="/">home page</Link>
         </p>
       </div>
     </div>

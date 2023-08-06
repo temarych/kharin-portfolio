@@ -3,7 +3,7 @@
 import { ButtonHTMLAttributes, ForwardedRef, forwardRef } from "react";
 import { twMerge }                                        from "tailwind-merge";
 
-export type ButtonColor = "sky" | "red" | "green";
+export type ButtonColor = "sky" | "red" | "green" | "black";
 
 export type ButtonColorMap = {
   [color in ButtonColor]: string;
@@ -12,7 +12,8 @@ export type ButtonColorMap = {
 export const colorMap: ButtonColorMap = {
   sky  : "bg-sky-400 hover:bg-sky-500 active:bg-sky-600 text-white",
   red  : "bg-red-400 hover:bg-red-500 active:bg-red-600 text-white",
-  green: "bg-green-400 hover:bg-green-500 active:bg-green-600 text-white"
+  green: "bg-green-400 hover:bg-green-500 active:bg-green-600 text-white",
+  black: "bg-gray-800 hover:bg-gray-900 active:bg-black text-white"
 };
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -20,7 +21,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const ButtonWithRef = (
-  { children, className, color = "sky", ...props }: ButtonProps,
+  { children, className, color = "black", ...props }: ButtonProps,
   ref                                     : ForwardedRef<HTMLButtonElement>
 ) => {
   const colorStyles = colorMap[color];

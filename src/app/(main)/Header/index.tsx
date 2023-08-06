@@ -1,8 +1,14 @@
+"use client";
+
 import { Fragment } from "react";
+import { Tag }      from "@components/Tag";
+import { useAuth }  from "@hooks/useAuth";
 import { NavBar }   from "./NavBar";
-import { Tag }      from "../Tag";
+import { UserMenu } from "../UserMenu";
 
 export const Header = () => {
+  const { isAuthorized } = useAuth();
+
   return (
     <Fragment>
       <div className="relative w-full h-16 border-b border-transparent" />
@@ -12,8 +18,9 @@ export const Header = () => {
             <Tag>Portfolio</Tag>
           </div>
           <h1 className="font-bold">Nazar Kharin</h1>
-          <div className="flex-1 flex items-center justify-end">
+          <div className="flex-1 flex items-center justify-end gap-4">
             <NavBar />
+            {isAuthorized && <UserMenu />}
           </div>
         </div>
       </header>
