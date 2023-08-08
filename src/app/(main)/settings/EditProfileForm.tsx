@@ -37,14 +37,14 @@ export const EditProfileForm = () => {
   });
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-12 pb-24">
       <div className="relative w-full flex flex-col">
         <div className="w-full h-[13em] mb-12 bg-gray-50 flex flex-col items-center p-8" />
         <div className="absolute inset-0 flex flex-col items-center justify-end px-8 pointer-events-none">
           <Avatar className="w-40 h-40 text-5xl border" />
         </div>
       </div>
-      <div className="w-full flex flex-col items-center py-12">
+      <div className="w-full flex flex-col items-center px-8">
         <div className="max-w-[20em] w-full flex flex-col gap-12">
           <div className="flex flex-col gap-4">
             <Form.Input 
