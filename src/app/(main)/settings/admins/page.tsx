@@ -1,8 +1,8 @@
 "use client";
 
 import { HiPlus }       from "react-icons/hi";
-import { IconButton }   from "@components/IconButton";
 import { List }         from "@components/List";
+import { Button }       from "@components/Button";
 import { UserItem }     from "./UserItem";
 import { AddAdminForm } from "./AddAdminForm";
 
@@ -10,11 +10,15 @@ const Admins = () => {
   return (
     <div className="flex flex-row">
       <div className="w-full border-r flex flex-col">
-        <div className="border-b px-6 py-4 flex flex-row items-center justify-between">
+        <div className="border-b px-6 min-h-[4.5em] flex flex-row items-center justify-between">
           <h1 className="font-bold text-xl">Edit admins</h1>
-          <IconButton>
-            <HiPlus className="text-lg" />
-          </IconButton>
+          <Button 
+            color         = "green" 
+            className     = "min-h-[2.5em] xl:hidden"
+            leftAdornment = {<HiPlus className="text-lg" />}
+          >
+            Add
+          </Button>
         </div>
         <List>
           <UserItem 

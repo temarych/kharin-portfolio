@@ -1,6 +1,6 @@
 "use client";
 
-import { ForwardedRef, forwardRef }     from "react";
+import { forwardRef }                   from "react";
 import { twMerge }                      from "tailwind-merge";
 import { BaseButtonProps, ButtonColor } from ".";
 
@@ -15,10 +15,14 @@ export const colorMap: ButtonOutlinedColorMap = {
   black: "border-gray-800 hover:bg-gray-50 active:bg-gray-100 text-black"
 };
 
-const ButtonOutlinedWithRef = (
-  { children, className, color = "black", ...props }: BaseButtonProps,
-  ref                                               : ForwardedRef<HTMLButtonElement>
-) => {
+export const ButtonOutlined = forwardRef<HTMLButtonElement, BaseButtonProps>(({ 
+  children, 
+  className, 
+  leftAdornment,
+  rightAdornment,
+  color = "black", 
+  ...props 
+}, ref) => {
   const colorStyles = colorMap[color];
 
   return (
@@ -26,14 +30,26 @@ const ButtonOutlinedWithRef = (
       {...props} 
       ref       = {ref} 
       className = {twMerge([
-        "min-h-[3em] rounded-lg px-6 disabled:border-gray-200 disabled:text-gray-500 disabled:bg-gray-50 border flex flex-row items-center justify-center transition", 
+        "min-h-[3em] rounded-lg disabled:border-gray-200 disabled:text-gray-500 disabled:bg-gray-50 border flex flex-row items-center justify-center gap-2 transition", 
+        leftAdornment ? "pl-4" : "pl-6",
+        rightAdornment ? "pr-4" : "pr-6",
         colorStyles, 
         className
       ])}
     >
-      {children}
+      {leftAdornment && (
+        <div className="flex-0">
+          {leftAdornment}
+        </div>
+      )}
+      <div className="flex-0">
+        {children}
+      </div>
+      {rightAdornment && (
+        <div className="flex-0">
+          {rightAdornment}
+        </div>
+      )}
     </button>
   );
-};
-
-export const ButtonOutlined = forwardRef(ButtonOutlinedWithRef);
+});
