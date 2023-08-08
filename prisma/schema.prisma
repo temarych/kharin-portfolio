@@ -16,5 +16,4 @@ model User {
   password  String
   firstName String
   lastName  String
-  role      String
 }

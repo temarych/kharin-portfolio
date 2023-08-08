@@ -1,7 +1,7 @@
 "use server";
 
-import { Role, User } from "@typings/user";
-import { prisma }     from "./prisma";
+import { User }   from "@typings/user";
+import { prisma } from "./prisma";
 
 export const getUser = async (id: string): Promise<User | null> => {
   const user = await prisma.user.findFirst({ where: { id } });
@@ -12,7 +12,6 @@ export const getUser = async (id: string): Promise<User | null> => {
     id       : user.id,
     email    : user.email,
     firstName: user.firstName,
-    lastName : user.lastName,
-    role     : user.role as Role
+    lastName : user.lastName
   };
 };
