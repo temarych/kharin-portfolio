@@ -68,7 +68,7 @@ export const Field = ({
     <div className="flex flex-col gap-2">
       <div 
         className={twMerge([
-          "relative border rounded-lg min-h-[3em] overflow-hidden", 
+          "relative border rounded-lg min-h-[3em] overflow-hidden flex flex-col", 
           outlineColorStyles,
           isFocused ? twMerge(["ring-1", focusColorStyles]) : null,
           className
@@ -79,7 +79,7 @@ export const Field = ({
             {leftAdornment}
           </div>
         )}
-        <div className="relative w-full h-full">
+        <div className="relative w-full flex-1 flex flex-col">
           {children}
         </div>
         {rightAdornment && (

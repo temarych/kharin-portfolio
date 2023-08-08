@@ -6,8 +6,8 @@ import { signOut }             from "next-auth/react";
 import { Menu, Transition }    from "@headlessui/react";
 import { 
   HiOutlineChartBar, 
-  HiOutlineLogout, 
-  HiOutlineUser 
+  HiOutlineCog, 
+  HiOutlineLogout
 }                              from "react-icons/hi";
 import { User }                from "@typings/user";
 import { List }                from "@components/List";
@@ -22,14 +22,14 @@ export interface IRoute {
 
 export const routes: IRoute[] = [
   {
-    name: "Profile",
-    icon: <HiOutlineUser />,
-    path: "/profile"
-  },
-  {
     name: "Activity",
     icon: <HiOutlineChartBar />,
     path: "/activity"
+  },
+  {
+    name: "Settings",
+    icon: <HiOutlineCog />,
+    path: "/settings"
   }
 ];
 
