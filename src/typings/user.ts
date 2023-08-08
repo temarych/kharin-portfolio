@@ -1,3 +1,7 @@
 import { User as PrismaUser } from "@prisma/client";
 
-export type User = Omit<PrismaUser, "password">;
+export type Role = "owner" | "admin";
+
+export type User = Omit<PrismaUser, "password" | "role"> & {
+  role: Role;
+};

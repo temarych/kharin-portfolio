@@ -1,12 +1,12 @@
-"use client";
-
 import { HiPlus }       from "react-icons/hi";
-import { List }         from "@components/List";
+import { getAdmins }    from "@utils/user";
 import { Button }       from "@components/Button";
-import { UserItem }     from "./UserItem";
 import { AddAdminForm } from "./AddAdminForm";
+import { EditAdmins }   from "./EditAdmins";
 
-const Admins = () => {
+const Admins = async () => {
+  const admins = await getAdmins();
+
   return (
     <section className="flex flex-row">
       <div className="w-full xl:border-r flex flex-col">
@@ -20,23 +20,7 @@ const Admins = () => {
             Add
           </Button>
         </div>
-        <List>
-          <UserItem 
-            firstName = "Tymur" 
-            lastName  = "Yavtushenko" 
-            email     = "temarych@gmail.com" 
-          />
-          <UserItem 
-            firstName = "Tymur" 
-            lastName  = "Yavtushenko" 
-            email     = "temarych@gmail.com" 
-          />
-          <UserItem 
-            firstName = "Tymur" 
-            lastName  = "Yavtushenko" 
-            email     = "temarych@gmail.com" 
-          />
-        </List>
+        <EditAdmins admins={admins} />
       </div>
       <div className="min-w-[23em] px-8 py-16 hidden xl:flex">
         <AddAdminForm />

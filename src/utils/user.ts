@@ -1,7 +1,7 @@
 "use server";
 
-import { User }   from "@typings/user";
-import { prisma } from "./prisma";
+import { Role, User } from "@typings/user";
+import { prisma }     from "./prisma";
 
 export const getUser = async (id: string): Promise<User | null> => {
   const user = await prisma.user.findFirst({ where: { id } });
@@ -12,7 +12,8 @@ export const getUser = async (id: string): Promise<User | null> => {
     id       : user.id,
     email    : user.email,
     firstName: user.firstName,
-    lastName : user.lastName
+    lastName : user.lastName,
+    role     : user.role as Role
   };
 };
 
@@ -23,6 +24,22 @@ export const updateUser = async (id: string, data: Partial<Omit<User, "id">>): P
     id       : user.id,
     email    : user.email,
     firstName: user.firstName,
-    lastName : user.lastName
+    lastName : user.lastName,
+    role     : user.role as Role
   };
+};
+
+export const getAdmins = async (): Promise<User[]> => {
+  const users = await prisma.user.findMany({ 
+    where: { 
+      role: { equals: "admin" }
+    } 
+  });
+  return users.map(user => ({
+    id       : user.id,
+    email    : user.email,
+    firstName: user.firstName,
+    lastName : user.lastName,
+    role     : user.role as Role
+  }));
 };

@@ -1,16 +1,18 @@
-import { ReactNode }        from "react";
-import Image                from "next/image";
-import { getServerSession } from "next-auth";
-import { redirect }         from "next/navigation";
+"use client";
+
+import { ReactNode } from "react";
+import Image         from "next/image";
+import { redirect }  from "next/navigation";
+import { useAuth }   from "@hooks/useAuth";
 
 interface AuthLayoutProps {
   children: ReactNode;
 }
 
-const AuthLayout = async ({ children }: AuthLayoutProps) => {
-  const session = await getServerSession();
+const AuthLayout = ({ children }: AuthLayoutProps) => {
+  const { isAuthorized } = useAuth();
 
-  if (session && session.user) {
+  if (isAuthorized) {
     redirect("/");
   }
 
