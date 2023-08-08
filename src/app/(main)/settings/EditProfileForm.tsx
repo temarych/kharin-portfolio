@@ -44,7 +44,7 @@ export const EditProfileForm = () => {
           <Avatar className="w-40 h-40 text-5xl border" />
         </div>
       </div>
-      <div className="w-full flex flex-col items-center">
+      <div className="w-full flex flex-col items-center px-8">
         <div className="max-w-[20em] w-full flex flex-col gap-12">
           <div className="flex flex-col gap-4">
             <Form.Input 
