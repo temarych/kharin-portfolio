@@ -40,8 +40,8 @@ export const EditProfileForm = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[40em] px-6 lg:px-0 py-16 lg:py-0 gap-12 lg:gap-0">
-      <div className="w-full flex flex-col items-center justify-center gap-8 lg:border-r">
-        <Avatar className="w-40 h-40 text-5xl border" />
+      <div className="w-full flex flex-row lg:flex-col items-center justify-center gap-8 lg:border-r">
+        <Avatar className="w-36 h-36 text-4xl lg:w-40 lg:h-40 lg:text-5xl border" />
         <Button color="green" leftAdornment={<HiPencil />}>Edit</Button>
       </div>
       <div className="flex flex-col items-center justify-center lg:px-8 lg:py-16">
