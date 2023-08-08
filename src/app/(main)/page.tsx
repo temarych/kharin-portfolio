@@ -3,7 +3,7 @@
 import { useRef }          from "react";
 import { useInView }       from "framer-motion";
 import { Section }         from "@components/Section";
-import { Footer }          from "@components/Footer";
+import { Footer }          from "./Footer";
 import { Showcase }        from "./Showcase";
 import { TechGrid }        from "./TechGrid";
 import { SkillGrid }       from "./SkillGrid";
@@ -17,7 +17,7 @@ const Home = () => {
   const isShowcaseInView = useInView(showcaseRef);
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pt-16">
       <Showcase ref={showcaseRef} />
       <Section title="Technologies">
         <TechGrid />
