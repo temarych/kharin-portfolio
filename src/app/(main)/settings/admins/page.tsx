@@ -8,10 +8,10 @@ import { AddAdminForm } from "./AddAdminForm";
 
 const Admins = () => {
   return (
-    <div className="flex flex-row">
-      <div className="w-full border-r flex flex-col">
+    <section className="flex flex-row">
+      <div className="w-full xl:border-r flex flex-col">
         <div className="border-b px-6 min-h-[4.5em] flex flex-row items-center justify-between">
-          <h1 className="font-bold text-xl">Edit admins</h1>
+          <h1 className="font-bold text-xl">Admins</h1>
           <Button 
             color         = "green" 
             className     = "min-h-[2.5em] xl:hidden"
@@ -38,10 +38,10 @@ const Admins = () => {
           />
         </List>
       </div>
-      <div className="min-w-[25em] px-8 py-16 hidden xl:flex">
+      <div className="min-w-[23em] px-8 py-16 hidden xl:flex">
         <AddAdminForm />
       </div>
-    </div>
+    </section>
   );
 };
 

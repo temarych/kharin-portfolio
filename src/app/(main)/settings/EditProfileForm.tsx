@@ -2,12 +2,14 @@
 
 import { useForm }       from "react-hook-form";
 import { z }             from "zod";
+import { HiPencil }      from "react-icons/hi";
 import { zodResolver }   from "@hookform/resolvers/zod";
 import { useAuth }       from "@hooks/useAuth";
 import { User }          from "@typings/user";
 import { Form }          from "@components/Form";
 import { LoadingButton } from "@components/LoadingButton";
 import { Avatar }        from "@components/Avatar";
+import { Button }        from "@components/Button";
 
 export const editProfileFormSchema = z.object({
   firstName: z.string().nonempty(),
@@ -24,7 +26,7 @@ export const EditProfileForm = () => {
   const { 
     control, 
     handleSubmit, 
-    formState: { isSubmitting, isDirty }, 
+    formState: { isSubmitting }, 
     reset
   } = useForm<IIncompleteEditProfileSchema, unknown, ICompleteEditProfileSchema>({
     defaultValues: {
@@ -37,15 +39,13 @@ export const EditProfileForm = () => {
   });
 
   return (
-    <div className="flex flex-col gap-12 pb-24">
-      <div className="relative w-full flex flex-col">
-        <div className="w-full h-[13em] mb-12 bg-gray-50 flex flex-col items-center p-8" />
-        <div className="absolute inset-0 flex flex-col items-center justify-end px-4 pointer-events-none">
-          <Avatar className="w-40 h-40 text-5xl border" />
-        </div>
+    <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[40em] px-6 lg:px-0 py-16 lg:py-0 gap-12 lg:gap-0">
+      <div className="w-full flex flex-col items-center justify-center gap-8 lg:border-r">
+        <Avatar className="w-40 h-40 text-5xl border" />
+        <Button color="green" leftAdornment={<HiPencil />}>Edit</Button>
       </div>
-      <div className="w-full flex flex-col items-center px-4">
-        <div className="max-w-[20em] w-full flex flex-col gap-12">
+      <div className="flex flex-col items-center justify-center lg:px-8 lg:py-16">
+        <div className="max-w-[23em] lg:max-w-[20em] w-full flex flex-col gap-12">
           <div className="flex flex-col gap-4">
             <Form.Input 
               name        = "firstName"
@@ -65,7 +65,7 @@ export const EditProfileForm = () => {
           </div>
           <div className="flex flex-col gap-4">
             <LoadingButton 
-              disabled  = {isSubmitting || !isDirty}
+              disabled  = {isSubmitting}
               isLoading = {isSubmitting}
               variant   = "contained"
               onClick   = {handleSubmit(async values => {
@@ -76,7 +76,7 @@ export const EditProfileForm = () => {
               Edit
             </LoadingButton>
             <LoadingButton 
-              disabled = {isSubmitting || !isDirty}
+              disabled = {isSubmitting}
               variant  = "outlined"
               onClick  = {() => reset(user as User)}
             >
