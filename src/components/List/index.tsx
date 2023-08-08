@@ -5,6 +5,7 @@ import { twMerge }                    from "tailwind-merge";
 import { ListItemWrapper }            from "./ListItemWrapper";
 import { ListItemButton }             from "./ListItemButton";
 import { ListItemContent }            from "./ListItemContent";
+import { ListItemTabDiv }             from "./ListItemTabDiv";
 
 export interface ListProps extends HTMLAttributes<HTMLUListElement> {
 
@@ -23,6 +24,7 @@ export const List = Object.assign(
   {
     ItemWrapper: ListItemWrapper,
     ItemButton : ListItemButton,
-    ItemContent: ListItemContent
+    ItemContent: ListItemContent,
+    ItemTabDiv : ListItemTabDiv
   }
 );

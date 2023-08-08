@@ -1,19 +1,19 @@
 "use client";
 
-import { ButtonHTMLAttributes, forwardRef } from "react";
-import { twMerge }                          from "tailwind-merge";
+import { HTMLAttributes, forwardRef } from "react";
+import { twMerge }                    from "tailwind-merge";
 
-export type ListItemButtonColor = "gray" | "red";
+export type ListItemTabDivColor = "gray" | "red";
 
-export type ListItemButtonColorMap = {
-  [color in ListItemButtonColor]: {
+export type ListItemTabDivColorMap = {
+  [color in ListItemTabDivColor]: {
     default : string;
     selected: string;
     common  : string;
   };
 }
 
-export const colorMap: ListItemButtonColorMap = {
+export const colorMap: ListItemTabDivColorMap = {
   gray: {
     default : "hover:bg-gray-50 active:bg-gray-100",
     selected: "bg-gray-50 active:bg-gray-100",
@@ -26,22 +26,23 @@ export const colorMap: ListItemButtonColorMap = {
   }
 };
 
-export interface ListItemButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ListItemTabDivProps extends HTMLAttributes<HTMLDivElement> {
   isSelected?: boolean;
-  color?     : ListItemButtonColor;
+  color?     : ListItemTabDivColor;
 }
 
-export const ListItemButton = forwardRef<HTMLButtonElement, ListItemButtonProps>(({ 
-  children, className, color = "gray", isSelected, ...props 
+export const ListItemTabDiv = forwardRef<HTMLDivElement, ListItemTabDivProps>(({ 
+  children, className, color = "gray", isSelected, tabIndex = -1, ...props 
 }, ref) => {
   const colorStyles = colorMap[color];
   
   return (
-    <button 
+    <div 
       {...props} 
       ref       = {ref} 
+      tabIndex  = {tabIndex}
       className = {twMerge([
-        "w-full text-left transition",
+        "w-full text-left transition cursor-pointer",
         colorStyles.common,
         isSelected === undefined ? colorStyles.default : 
         isSelected ? colorStyles.selected : null,
@@ -49,6 +50,6 @@ export const ListItemButton = forwardRef<HTMLButtonElement, ListItemButtonProps>
       ])}
     >
       {children}
-    </button>
+    </div>
   );
 });
