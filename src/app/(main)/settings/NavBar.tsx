@@ -1,6 +1,6 @@
 import { HiOutlineUser, HiOutlineUsers, HiUser, HiUsers } from "react-icons/hi";
 import { List }                                           from "@components/List";
-import { NavItem }                                        from "./NavItem";
+import { NavItem }                                        from "../NavItem";
 
 export const NavBar = () => {
   return (

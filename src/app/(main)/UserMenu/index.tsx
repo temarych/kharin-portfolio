@@ -1,10 +1,11 @@
 "use client";
 
 import { Fragment, ReactNode } from "react";
-import { useRouter }           from "next/navigation";
 import { signOut }             from "next-auth/react";
 import { Menu, Transition }    from "@headlessui/react";
 import { 
+  HiChartBar,
+  HiCog,
   HiOutlineChartBar, 
   HiOutlineCog, 
   HiOutlineLogout
@@ -13,23 +14,27 @@ import { User }                from "@typings/user";
 import { List }                from "@components/List";
 import { Avatar }              from "@components/Avatar";
 import { Divider }             from "@components/Divider";
+import { NavItem }             from "../NavItem";
 
 export interface IRoute {
-  name: string;
-  icon: ReactNode;
-  path: string;
+  name      : string;
+  icon      : ReactNode;
+  activeIcon: ReactNode;
+  path      : string;
 }
 
 export const routes: IRoute[] = [
   {
-    name: "Activity",
-    icon: <HiOutlineChartBar />,
-    path: "/activity"
+    name      : "Activity",
+    icon      : <HiOutlineChartBar />,
+    activeIcon: <HiChartBar />,
+    path      : "/activity"
   },
   {
-    name: "Settings",
-    icon: <HiOutlineCog />,
-    path: "/settings"
+    name      : "Settings",
+    icon      : <HiOutlineCog />,
+    activeIcon: <HiCog />,
+    path      : "/settings"
   }
 ];
 
@@ -38,8 +43,6 @@ export interface UserMenuProps {
 }
 
 export const UserMenu = ({ user }: UserMenuProps) => {
-  const router = useRouter();
-
   return (
     <Menu>
       {({ open }) => (
@@ -67,13 +70,7 @@ export const UserMenu = ({ user }: UserMenuProps) => {
                   {routes.map(route => (
                     <Menu.Item key={route.name}>
                       {({ active }) => (
-                        <List.ItemWrapper onClick={() => router.push(route.path)}>
-                          <List.ItemButton isSelected={active}>
-                            <List.ItemContent leftAdornment={route.icon}>
-                              {route.name}
-                            </List.ItemContent>
-                          </List.ItemButton>
-                        </List.ItemWrapper>
+                        <NavItem {...route} isSelected={active} />
                       )}
                     </Menu.Item>
                   ))}
