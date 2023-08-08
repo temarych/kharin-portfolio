@@ -5,13 +5,11 @@ import { useSession, signIn as nextAuthSignIn, signOut as nextAuthSignOut } from
 import { getUser }                                                          from "@utils/user";
 import { User }                                                             from "@typings/user";
 import { Credentials }                                                      from "@typings/auth";
-import { updateUser as updateUserAction }                                   from "@utils/user";
 
 export interface IAuthContext {
   user        : User | null;
   isLoading   : boolean;
   isAuthorized: boolean;
-  updateUser  : (data: Partial<Omit<User, "id">>) => Promise<User>;
   signIn      : (credentials: Credentials) => Promise<void>;
   signOut     : () => Promise<void>;
 }
@@ -20,7 +18,6 @@ export const AuthContext = createContext<IAuthContext>({
   user        : null,
   isLoading   : false,
   isAuthorized: false,
-  updateUser  : async () => { return {} as User; },
   signIn      : async () => { return; },
   signOut     : async () => { return; }
 });
@@ -77,18 +74,8 @@ export const AuthProvider = ({ user: propUser, children }: AuthProviderProps) =>
     []
   );
 
-  const updateUser = useCallback(
-    async (data: Partial<Omit<User, "id">>) => {
-      if (!sessionUserId) throw new Error("Unauthorized");
-      const user = await updateUserAction(sessionUserId, data);
-      setUser(user);
-      return user;
-    },
-    [sessionUserId]
-  );
-
   return (
-    <AuthContext.Provider value={{ user, isLoading, isAuthorized, updateUser, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, isLoading, isAuthorized, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

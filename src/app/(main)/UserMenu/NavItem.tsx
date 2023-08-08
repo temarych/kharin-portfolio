@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, forwardRef }  from "react";
+import { Menu }                   from "@headlessui/react";
 import { usePathname, useRouter } from "next/navigation";
 import { twMerge }                from "tailwind-merge";
 import { List }                   from "@components/List";
@@ -11,11 +12,10 @@ export interface NavItemProps extends ListItemWrapperProps {
   activeIcon : ReactNode;
   name       : string;
   path       : string;
-  isSelected?: boolean;
 }
 
 export const NavItem = forwardRef<HTMLLIElement, NavItemProps>(({ 
-  icon, activeIcon, name, path, isSelected, ...props
+  icon, activeIcon, name, path, ...props
 }, ref) => {
   const router   = useRouter();
   const pathname = usePathname();
@@ -23,14 +23,18 @@ export const NavItem = forwardRef<HTMLLIElement, NavItemProps>(({
 
   return (
     <List.ItemWrapper {...props} ref={ref} onClick={() => router.push(path)} >
-      <List.ItemButton 
-        isSelected = {isSelected}
-        className  = {twMerge([isActive ? "font-bold" : null])}
-      >
-        <List.ItemContent leftAdornment={isActive ? activeIcon : icon}>
-          {name}
-        </List.ItemContent>
-      </List.ItemButton>
+      <Menu.Item>
+        {({ active }) => (
+          <List.ItemButton 
+            isSelected = {active}
+            className  = {twMerge([isActive ? "font-bold" : null])}
+          >
+            <List.ItemContent leftAdornment={isActive ? activeIcon : icon}>
+              {name}
+            </List.ItemContent>
+          </List.ItemButton>
+        )}
+      </Menu.Item>
     </List.ItemWrapper>
   );
 });

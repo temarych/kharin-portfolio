@@ -16,8 +16,11 @@ export const Header = () => {
         </div>
         <h1 className="font-bold">Nazar Kharin</h1>
         <div className="flex-1 flex items-center justify-end gap-2">
-          <NavBar />
-          {user && <UserMenu user={user} />}
+          {user ? (
+            <UserMenu user={user} />
+          ) : (
+            <NavBar />
+          )}
         </div>
       </div>
     </header>
