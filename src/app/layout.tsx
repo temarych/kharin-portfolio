@@ -1,17 +1,14 @@
 import "./globals.css";
-import { ReactNode }        from "react";
-import { getServerSession } from "next-auth";
-import { Providers }        from "@components/Providers";
-import { getUser }          from "@utils/user";
+import { ReactNode }     from "react";
+import { getServerAuth } from "@utils/auth";
+import { Providers }     from "@components/Providers";
 
 interface RootLayoutProps {
   children: ReactNode;
 }
 
 const RootLayout = async ({ children }: RootLayoutProps) => {
-  const session = await getServerSession();
-  const email   = session?.user?.email ?? null;
-  const user    = email ? await getUser(email) : null;
+  const { session, user } = await getServerAuth();
 
   return (
     <html lang="en">

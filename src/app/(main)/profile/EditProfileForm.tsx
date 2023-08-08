@@ -18,9 +18,13 @@ export type ICompleteEditProfileSchema   = z.infer<typeof editProfileFormSchema>
 export type IIncompleteEditProfileSchema = ICompleteEditProfileSchema;
 
 export const EditProfileForm = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
 
-  const { control, handleSubmit } = useForm<IIncompleteEditProfileSchema, unknown, ICompleteEditProfileSchema>({
+  const { 
+    control, 
+    handleSubmit, 
+    formState: { isSubmitting } 
+  } = useForm<IIncompleteEditProfileSchema, unknown, ICompleteEditProfileSchema>({
     defaultValues: {
       firstName: "",
       lastName : "",
@@ -54,8 +58,10 @@ export const EditProfileForm = () => {
           />
         </div>
         <LoadingButton 
-          onClick={handleSubmit(values => {
-            console.log(values);
+          disabled  = {isSubmitting}
+          isLoading = {isSubmitting}
+          onClick   = {handleSubmit(async values => {
+            await updateUser(values);
           })}
         >
           Edit

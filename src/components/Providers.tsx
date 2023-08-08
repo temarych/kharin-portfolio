@@ -3,7 +3,7 @@
 import { ReactNode }       from "react";
 import { Session }         from "next-auth";
 import { SessionProvider } from "next-auth/react";
-import { User }            from "@prisma/client";
+import { User }            from "@typings/user";
 import { AuthProvider }    from "./AuthProvider";
 
 export interface ProvidersProps {
