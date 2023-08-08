@@ -39,7 +39,7 @@ export const EditProfileForm = () => {
   return (
     <div className="flex flex-col">
       <div className="relative w-full flex flex-col">
-        <div className="w-full h-[15em] mb-12 bg-gray-50 flex flex-col items-center p-8" />
+        <div className="w-full h-[13em] mb-12 bg-gray-50 flex flex-col items-center p-8" />
         <div className="absolute inset-0 flex flex-col items-center justify-end px-8 pointer-events-none">
           <Avatar className="w-40 h-40 text-5xl border" />
         </div>
