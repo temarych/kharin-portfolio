@@ -1,15 +1,15 @@
 "use client";
 
-import { Fragment }         from "react";
-import { signOut }          from "next-auth/react";
-import { Menu, Transition } from "@headlessui/react";
-import { HiOutlineLogout }  from "react-icons/hi";
-import { User }             from "@typings/user";
-import { List }             from "@components/List";
-import { Avatar }           from "@components/Avatar";
-import { Divider }          from "@components/Divider";
-import { NavItem }          from "./NavItem";
-import { routes }           from "../routes";
+import { Fragment }                from "react";
+import { signOut }                 from "next-auth/react";
+import { Menu, Transition }        from "@headlessui/react";
+import { HiMenu, HiOutlineLogout } from "react-icons/hi";
+import { User }                    from "@typings/user";
+import { List }                    from "@components/List";
+import { Divider }                 from "@components/Divider";
+import { IconButton }              from "@components/IconButton";
+import { NavItem }                 from "./NavItem";
+import { routes }                  from "../routes";
 
 export interface UserMenuProps {
   user: User;
@@ -20,8 +20,8 @@ export const UserMenu = ({ user }: UserMenuProps) => {
     <Menu>
       {({ open }) => (
         <div className="relative flex flex-col">
-          <Menu.Button className="rounded-full border border-gray-300 after:absolute after:inset-0 after:rounded-full hover:after:bg-gray-400/10 active:after:bg-gray-400/25 transition">
-            <Avatar />
+          <Menu.Button as={IconButton}>
+            <HiMenu className="text-xl" />
           </Menu.Button>
           <div className="relative">
             <Transition
