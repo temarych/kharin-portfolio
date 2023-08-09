@@ -1,9 +1,9 @@
 "use server";
 
-import { User }   from "@typings/user";
-import { prisma } from "./prisma";
+import { IProfile } from "@typings/user";
+import { prisma }   from "./prisma";
 
-export const getUser = async (id: string): Promise<User | null> => {
+export const getUser = async (id: string): Promise<IProfile | null> => {
   const user = await prisma.user.findFirst({ where: { id } });
 
   if (!user) return null;

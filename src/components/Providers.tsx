@@ -1,23 +1,18 @@
 "use client";
 
-import { ReactNode }       from "react";
-import { Session }         from "next-auth";
-import { SessionProvider } from "next-auth/react";
-import { User }            from "@typings/user";
-import { AuthProvider }    from "./AuthProvider";
+import { ReactNode }    from "react";
+import { IProfile }     from "@typings/user";
+import { AuthProvider } from "./AuthProvider";
 
 export interface ProvidersProps {
   children?: ReactNode;
-  session  : Session | null;
-  user     : User | null;
+  user     : IProfile | null;
 }
 
-export const Providers = ({ children, session, user }: ProvidersProps) => {
+export const Providers = ({ children, user }: ProvidersProps) => {
   return (
-    <SessionProvider session={session}>
-      <AuthProvider user={user}>
-        {children}
-      </AuthProvider>
-    </SessionProvider>
+    <AuthProvider user={user}>
+      {children}
+    </AuthProvider>
   );
 };

@@ -1,75 +1,52 @@
 "use client";
 
-import { ReactNode, createContext, useCallback, useEffect, useState }       from "react";
-import { useSession, signIn as nextAuthSignIn, signOut as nextAuthSignOut } from "next-auth/react";
-import { getUser }                                                          from "@utils/user";
-import { User }                                                             from "@typings/user";
-import { Credentials }                                                      from "@typings/auth";
+import { ReactNode, createContext, useCallback, useState } from "react";
+import { Credentials }                                     from "@typings/auth";
+import { IProfile }                                        from "@typings/user";
+import { AuthServiceResponse, authService }                from "@utils/authService";
 
 export interface IAuthContext {
-  user        : User | null;
+  user        : IProfile | null;
   isLoading   : boolean;
   isAuthorized: boolean;
-  signIn      : (credentials: Credentials) => Promise<void>;
-  signOut     : () => Promise<void>;
+  signIn      : (credentials: Credentials) => Promise<AuthServiceResponse<IProfile>>;
+  signOut     : () => Promise<AuthServiceResponse<IProfile>>;
 }
 
 export const AuthContext = createContext<IAuthContext>({
   user        : null,
   isLoading   : false,
   isAuthorized: false,
-  signIn      : async () => { return; },
-  signOut     : async () => { return; }
+  signIn      : async () => { return {} as any; },
+  signOut     : async () => { return {} as any; }
 });
 
 export interface AuthProviderProps {
   children?: ReactNode;
-  user     : User | null;
+  user     : IProfile | null;
 }
 
 export const AuthProvider = ({ user: propUser, children }: AuthProviderProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const session                   = useSession();
-  const [user, setUser]           = useState<User | null>(propUser);
-  const sessionUserId             = session.data?.user?.id ?? null;
-  const userId                    = user?.email ?? null;
+  const [user, setUser]           = useState<IProfile | null>(propUser);
   const isAuthorized              = !!user;
-
-  useEffect(
-    () => {
-      (async () => {
-        if (!sessionUserId) {
-          setUser(null);
-          return;
-        }
-        if (sessionUserId === userId) {
-          return;
-        }
-        setIsLoading(true);
-        const newUser = await getUser(sessionUserId);
-        setUser(newUser);
-        setIsLoading(false);
-      })();
-    },
-    [sessionUserId, userId]
-  );
 
   const signIn = useCallback(
     async (credentials: Credentials) => {
-      const response = await nextAuthSignIn("credentials", { 
-        redirect: false, 
-        ...credentials 
-      });
-      if (response && response.error) {
-        throw new Error(response.error);
-      }
+      setIsLoading(true);
+      const response = await authService.signIn(credentials);
+      setUser(response.data);
+      setIsLoading(false);
+      return response;
     },
     []
   );
 
   const signOut = useCallback(
     async () => {
-      await nextAuthSignOut();
+      const response = await authService.signOut();
+      setUser(null);
+      return response;
     },
     []
   );

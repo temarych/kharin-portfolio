@@ -1,10 +1,10 @@
 "use client";
 
 import { Fragment }                from "react";
-import { signOut }                 from "next-auth/react";
 import { Menu, Transition }        from "@headlessui/react";
 import { HiMenu, HiOutlineLogout } from "react-icons/hi";
-import { User }                    from "@typings/user";
+import { IProfile }                from "@typings/user";
+import { useAuth }                 from "@hooks/useAuth";
 import { List }                    from "@components/List";
 import { Divider }                 from "@components/Divider";
 import { IconButton }              from "@components/IconButton";
@@ -12,10 +12,12 @@ import { NavItem }                 from "./NavItem";
 import { routes }                  from "../routes";
 
 export interface UserMenuProps {
-  user: User;
+  user: IProfile;
 }
 
 export const UserMenu = ({ user }: UserMenuProps) => {
+  const { signOut } = useAuth();
+
   return (
     <Menu>
       {({ open }) => (
@@ -46,7 +48,7 @@ export const UserMenu = ({ user }: UserMenuProps) => {
                   <Divider className="my-3" />
                   <Menu.Item>
                     {({ active }) => (
-                      <List.ItemWrapper onClick={() => signOut({ redirect: false })}>
+                      <List.ItemWrapper onClick={() => signOut()}>
                         <List.ItemButton isSelected={active} color="red">
                           <List.ItemContent leftAdornment={<HiOutlineLogout />}>
                             Log out
