@@ -1,6 +1,6 @@
 "use client";
 
-import { ForwardedRef, forwardRef }     from "react";
+import { forwardRef }                   from "react";
 import { twMerge }                      from "tailwind-merge";
 import { BaseButtonProps, ButtonColor } from ".";
 
@@ -11,7 +11,7 @@ export type ButtonContainedColorMap = {
 export const colorMap: ButtonContainedColorMap = {
   sky  : "bg-sky-400 hover:bg-sky-500 active:bg-sky-600 text-white",
   red  : "bg-red-400 hover:bg-red-500 active:bg-red-600 text-white",
-  green: "bg-green-400 hover:bg-green-500 active:bg-green-600 text-white",
+  green: "bg-green-500 hover:bg-green-600 active:bg-green-700 text-white",
   black: "bg-gray-800 hover:bg-gray-900 active:bg-black text-white"
 };
 
