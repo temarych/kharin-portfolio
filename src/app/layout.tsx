@@ -1,23 +1,31 @@
 import "./globals.css";
-import { ReactNode }   from "react";
-import { headers }     from "next/headers";
-import { Providers }   from "@components/Providers";
-import { Query }       from "@utils/query";
-import { AuthService } from "@utils/authService";
+import { ReactNode }        from "react";
+import { headers }          from "next/headers";
+import { SWRConfiguration } from "swr";
+import { Providers }        from "@components/Providers";
 
 interface RootLayoutProps {
   children: ReactNode;
 }
 
 const RootLayout = async ({ children }: RootLayoutProps) => {
-  const query          = new Query({ withCredentials: true, headers: headers() });
-  const authService    = new AuthService({ query });
-  const { data: user } = await authService.getMe();
+  const response = await fetch("http://localhost:3000/api/auth/me", {
+    credentials: "include",
+    headers    : headers()
+  });
+
+  const user = response.ok ? await response.json() : null;
+
+  const swrConfig: SWRConfiguration = {
+    fallback: {
+      "/api/auth/me": user
+    }
+  };
   
   return (
     <html lang="en">
       <body>
-        <Providers user={user}>
+        <Providers swrConfig={swrConfig}>
           {children}
         </Providers>
       </body>

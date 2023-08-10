@@ -1,18 +1,17 @@
 "use client";
 
-import { ReactNode }    from "react";
-import { IProfile }     from "@typings/user";
-import { AuthProvider } from "./AuthProvider";
+import { ReactNode }                   from "react";
+import { SWRConfig, SWRConfiguration } from "swr";
 
 export interface ProvidersProps {
-  children?: ReactNode;
-  user     : IProfile | null;
+  children? : ReactNode;
+  swrConfig?: SWRConfiguration;
 }
 
-export const Providers = ({ children, user }: ProvidersProps) => {
+export const Providers = ({ children, swrConfig }: ProvidersProps) => {
   return (
-    <AuthProvider user={user}>
+    <SWRConfig value={swrConfig}>
       {children}
-    </AuthProvider>
+    </SWRConfig>
   );
 };
