@@ -1,15 +1,13 @@
-import { GalleryItem } from "./GalleryItem";
+import { ReactNode } from "react";
 
 export interface GalleryGridProps {
-  photos: string[];
+  children: ReactNode;
 }
 
-export const GalleryGrid = ({ photos }: GalleryGridProps) => {
+export const GalleryGrid = ({ children }: GalleryGridProps) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {photos.map((photo, index) => (
-        <GalleryItem key={index} src={photo} />
-      ))}
+      {children}
     </div>
   );
 };

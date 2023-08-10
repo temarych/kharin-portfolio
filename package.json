@@ -23,7 +23,7 @@
     "framer-motion": "^10.15.0",
     "http-errors": "^2.0.0",
     "jsonwebtoken": "^9.0.1",
-    "next": "^13.4.10",
+    "next": "^13.4.9",
     "next-connect": "^1.0.0",
     "postcss": "8.4.27",
     "prisma": "^5.1.1",
