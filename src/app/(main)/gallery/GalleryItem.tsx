@@ -9,9 +9,10 @@ export const GalleryItem = ({ src }: GalleryItemProps) => {
     <div className="relative rounded-xl bg-gray-50 aspect-[3/4] overflow-hidden">
       <Image
         fill
+        priority
         alt       = "gallery-item"
         src       = {src}
-        quality   = {5}
+        sizes     = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         className = "object-cover"
       />
     </div>
