@@ -7,8 +7,9 @@ import { useAuth }           from "@hooks/useAuth";
 import { Button }            from "@components/Button";
 import { AnchorMask }        from "../AnchorMask";
 import { GalleryGrid }       from "./GalleryGrid";
-import { ViewPhotoDialog }   from "./ViewPhotoDialog";
 import { GalleryItem }       from "./GalleryItem";
+import { ViewPhotoDialog }   from "./ViewPhotoDialog";
+import { AddPhotoDialog }    from "./AddPhotoDialog";
 
 const photos = [
   "/gallery-photo-1.jpg",
@@ -21,10 +22,10 @@ const photos = [
 ];
 
 const Gallery = () => {
-  const controlRef                                        = useRef<HTMLDivElement>(null);
-  const { isAuthorized }                                  = useAuth();
-  const isControlInView                                   = useInView(controlRef);
-  const [isViewPhotoDialogOpen, setIsViewPhotoDialogOpen] = useState<boolean>(false);
+  const controlRef                  = useRef<HTMLDivElement>(null);
+  const { isAuthorized }            = useAuth();
+  const isControlInView             = useInView(controlRef);
+  const [openDialog, setOpenDialog] = useState<"add-photo" | "view-photo" | null>(null);
 
   return (
     <section className="pt-24 pb-8 flex flex-col items-center px-4">
@@ -35,6 +36,7 @@ const Gallery = () => {
             <Button 
               color         = "green"
               leftAdornment = {<HiPlus />} 
+              onClick       = {() => setOpenDialog("add-photo")}
             >
               Add photo
             </Button>
@@ -47,7 +49,7 @@ const Gallery = () => {
               initial    = {{ scale: 1 }} 
               whileHover = {{ scale: 1.015 }}
               className  = "cursor-pointer"
-              onClick    = {() => setIsViewPhotoDialogOpen(true)}
+              onClick    = {() => setOpenDialog("view-photo")}
             >
               <GalleryItem src={photo} />
             </motion.div>
@@ -56,8 +58,12 @@ const Gallery = () => {
       </div>
       <AnchorMask isAnchorShown={!isControlInView} />
       <ViewPhotoDialog 
-        isOpen  = {isViewPhotoDialogOpen} 
-        onClose = {() => setIsViewPhotoDialogOpen(false)} 
+        isOpen  = {openDialog === "view-photo"} 
+        onClose = {() => setOpenDialog(null)} 
+      />
+      <AddPhotoDialog 
+        isOpen  = {openDialog === "add-photo"} 
+        onClose = {() => setOpenDialog(null)} 
       />
     </section>
   );

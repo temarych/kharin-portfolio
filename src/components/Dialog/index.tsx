@@ -15,7 +15,7 @@ export interface DialogProps {
 export const Dialog = ({ isOpen, onClose, title, children }: DialogProps) => {
   return (
     <Transition show={isOpen}>
-      <HeadlessDialog open={isOpen} onClose={onClose} static className="fixed z-10 inset-0 flex">
+      <HeadlessDialog open={isOpen} onClose={onClose} static className="fixed z-10 inset-0 flex p-4">
         <Transition.Child
           as        = {Fragment}
           enter     = "duration-200 transition"
