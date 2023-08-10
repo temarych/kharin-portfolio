@@ -1,17 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError, z }               from "zod";
+import { createEdgeRouter }          from "next-connect";
 import createHttpError               from "http-errors";
+import { errorHandler }              from "@api/errorHandler";
 import { prisma }                    from "@utils/prisma";
 import { jwt }                       from "@utils/jwt";
 import { Profile }                   from "@typings/user";
-import { withErrorHandler }          from "@api/withErrorHandler";
+
+export type RequestContext = {};
+
+const router = createEdgeRouter<NextRequest, RequestContext>();
 
 const requestBodySchema = z.object({
   email   : z.string().nonempty(),
   password: z.string().nonempty()
 });
 
-export const POST = withErrorHandler(async (request: NextRequest) => {
+router.use(async (request, response, next) => {
+  return next().catch(errorHandler);
+});
+
+router.post(async (request: NextRequest) => {
   try {
     const { email, password } = requestBodySchema.parse(await request.json());
     const user                = await prisma.user.findFirst({ where: { email } });
@@ -35,3 +44,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
     throw error;
   }
 });
+
+export const POST = async (request: NextRequest, ctx: RequestContext) => {
+  return router.run(request, ctx);
+};
