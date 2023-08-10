@@ -3,8 +3,8 @@ import { Credentials } from "@typings/auth";
 import { useUser }     from "./useUser";
 
 export const useAuth = () => {
-  const { user, isLoading, setUser } = useUser();
-  const isAuthorized                 = !!user;
+  const { user, isLoading, setUser, refreshUser } = useUser();
+  const isAuthorized                              = !!user;
 
   const signIn = useCallback(
     async (credentials: Credentials) => {
@@ -34,5 +34,14 @@ export const useAuth = () => {
     [setUser]
   );
 
-  return { user, isLoading, isAuthorized, signIn, signOut };
+  const refreshAuth = useCallback(
+    async () => {
+      const user         = await refreshUser();
+      const isAuthorized = !!user;
+      return { user, isAuthorized };
+    },
+    [refreshUser]
+  );
+
+  return { user, isLoading, isAuthorized, signIn, signOut, refreshAuth };
 };

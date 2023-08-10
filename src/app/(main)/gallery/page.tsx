@@ -43,10 +43,10 @@ const photos = [
 ];
 
 const Gallery = () => {
-  const controlRef                  = useRef<HTMLDivElement>(null);
-  const { isAuthorized }            = useAuth();
-  const isControlInView             = useInView(controlRef);
-  const [openDialog, setOpenDialog] = useState<"add-photo" | "view-photo" | null>(null);
+  const controlRef                    = useRef<HTMLDivElement>(null);
+  const { isAuthorized, refreshAuth } = useAuth();
+  const isControlInView               = useInView(controlRef);
+  const [openDialog, setOpenDialog]   = useState<"add-photo" | "view-photo" | null>(null);
 
   return (
     <section className="pt-24 pb-8 flex flex-col items-center px-4">
@@ -57,7 +57,11 @@ const Gallery = () => {
             <Button 
               color         = "green"
               leftAdornment = {<HiPlus />} 
-              onClick       = {() => setOpenDialog("add-photo")}
+              onClick       = {async () => {
+                const { isAuthorized } = await refreshAuth();
+                if (!isAuthorized) return;
+                setOpenDialog("add-photo");
+              }}
             >
               Add photo
             </Button>
