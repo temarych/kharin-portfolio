@@ -3,8 +3,8 @@ import { Credentials } from "@typings/auth";
 import { useUser }     from "./useUser";
 
 export const useAuth = () => {
-  const { user, isLoading, setUser, refreshUser } = useUser();
-  const isAuthorized                              = !!user;
+  const { user, isLoading, setUser, refreshUser, error } = useUser();
+  const isAuthorized                                     = !!user && !error;
 
   const signIn = useCallback(
     async (credentials: Credentials) => {
