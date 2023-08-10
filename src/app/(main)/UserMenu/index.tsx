@@ -1,51 +1,29 @@
 "use client";
 
-import { Fragment, ReactNode } from "react";
-import { useRouter }           from "next/navigation";
-import { signOut }             from "next-auth/react";
-import { Menu, Transition }    from "@headlessui/react";
-import { 
-  HiOutlineChartBar, 
-  HiOutlineCog, 
-  HiOutlineLogout
-}                              from "react-icons/hi";
-import { User }                from "@typings/user";
-import { List }                from "@components/List";
-import { Avatar }              from "@components/Avatar";
-import { Divider }             from "@components/Divider";
-
-export interface IRoute {
-  name: string;
-  icon: ReactNode;
-  path: string;
-}
-
-export const routes: IRoute[] = [
-  {
-    name: "Activity",
-    icon: <HiOutlineChartBar />,
-    path: "/activity"
-  },
-  {
-    name: "Settings",
-    icon: <HiOutlineCog />,
-    path: "/settings"
-  }
-];
+import { Fragment }                from "react";
+import { Menu, Transition }        from "@headlessui/react";
+import { HiMenu, HiOutlineLogout } from "react-icons/hi";
+import { IProfile }                from "@typings/user";
+import { useAuth }                 from "@hooks/useAuth";
+import { List }                    from "@components/List";
+import { Divider }                 from "@components/Divider";
+import { IconButton }              from "@components/IconButton";
+import { NavItem }                 from "./NavItem";
+import { routes }                  from "../routes";
 
 export interface UserMenuProps {
-  user: User;
+  user: IProfile;
 }
 
 export const UserMenu = ({ user }: UserMenuProps) => {
-  const router = useRouter();
+  const { signOut } = useAuth();
 
   return (
     <Menu>
       {({ open }) => (
         <div className="relative flex flex-col">
-          <Menu.Button className="rounded-full border border-gray-300 after:absolute after:inset-0 after:rounded-full hover:after:bg-gray-400/10 active:after:bg-gray-400/25 transition">
-            <Avatar />
+          <Menu.Button as={IconButton}>
+            <HiMenu className="text-xl" />
           </Menu.Button>
           <div className="relative">
             <Transition
@@ -65,22 +43,12 @@ export const UserMenu = ({ user }: UserMenuProps) => {
                 </div>
                 <List className="py-3">
                   {routes.map(route => (
-                    <Menu.Item key={route.name}>
-                      {({ active }) => (
-                        <List.ItemWrapper onClick={() => router.push(route.path)}>
-                          <List.ItemButton isSelected={active}>
-                            <List.ItemContent leftAdornment={route.icon}>
-                              {route.name}
-                            </List.ItemContent>
-                          </List.ItemButton>
-                        </List.ItemWrapper>
-                      )}
-                    </Menu.Item>
+                    <NavItem key={route.name} {...route} />
                   ))}
                   <Divider className="my-3" />
                   <Menu.Item>
                     {({ active }) => (
-                      <List.ItemWrapper onClick={() => signOut({ redirect: false })}>
+                      <List.ItemWrapper onClick={() => signOut()}>
                         <List.ItemButton isSelected={active} color="red">
                           <List.ItemContent leftAdornment={<HiOutlineLogout />}>
                             Log out

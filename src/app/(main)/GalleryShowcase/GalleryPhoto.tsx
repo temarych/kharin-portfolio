@@ -22,10 +22,10 @@ export const GalleryPhoto = ({ scrollYProgress, order, amount, className, src }:
     >
       <Image 
         fill
-        loading   = "lazy"
-        quality   = {10}
+        priority
         alt       = "gallery-photo"
         src       = {src}
+        sizes     = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         className = "object-cover"
       />
     </motion.div>

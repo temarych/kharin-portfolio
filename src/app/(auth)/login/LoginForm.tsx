@@ -2,7 +2,6 @@
 
 import { useForm }       from "react-hook-form";
 import { z }             from "zod";
-import { useRouter }     from "next/navigation";
 import { zodResolver }   from "@hookform/resolvers/zod";
 import { Form }          from "@components/Form";
 import { LoadingButton } from "@components/LoadingButton";
@@ -17,7 +16,6 @@ export type IIncompleteLoginFormSchema = z.infer<typeof incompleteLoginFormSchem
 export type ICompleteLoginFormSchema   = IIncompleteLoginFormSchema;
 
 export const LoginForm = () => {
-  const router     = useRouter();
   const { signIn } = useAuth();
 
   const { 
@@ -62,12 +60,8 @@ export const LoginForm = () => {
         disabled  = {isSubmitting}
         isLoading = {isSubmitting}
         onClick   = {handleSubmit(async values => {
-          try {
-            await signIn(values);
-            router.push("/");
-          } catch (error) {
-            setError("root", { message: "Incorrect email or password" });
-          }
+          const { error } = await signIn(values);
+          error && setError("root", { message: error });
         })}
       >
         Log in

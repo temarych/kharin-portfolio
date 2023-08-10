@@ -1,14 +1,16 @@
 "use client";
 
-import { ButtonHTMLAttributes, ForwardedRef, forwardRef } from "react";
-import { ButtonContained }                                from "./ButtonContained";
-import { ButtonOutlined }                                 from "./ButtonOutlined";
+import { ButtonHTMLAttributes, ForwardedRef, ReactNode, forwardRef } from "react";
+import { ButtonContained }                                           from "./ButtonContained";
+import { ButtonOutlined }                                            from "./ButtonOutlined";
 
 export type ButtonColor   = "sky" | "red" | "green" | "black";
 export type ButtonVariant = "contained" | "outlined";
 
 export interface BaseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: ButtonColor;
+  color?         : ButtonColor;
+  leftAdornment? : ReactNode;
+  rightAdornment?: ReactNode;
 }
 
 export interface ButtonProps extends BaseButtonProps {

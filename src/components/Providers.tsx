@@ -1,23 +1,17 @@
 "use client";
 
-import { ReactNode }       from "react";
-import { Session }         from "next-auth";
-import { SessionProvider } from "next-auth/react";
-import { User }            from "@typings/user";
-import { AuthProvider }    from "./AuthProvider";
+import { ReactNode }                   from "react";
+import { SWRConfig, SWRConfiguration } from "swr";
 
 export interface ProvidersProps {
-  children?: ReactNode;
-  session  : Session | null;
-  user     : User | null;
+  children? : ReactNode;
+  swrConfig?: SWRConfiguration;
 }
 
-export const Providers = ({ children, session, user }: ProvidersProps) => {
+export const Providers = ({ children, swrConfig }: ProvidersProps) => {
   return (
-    <SessionProvider session={session}>
-      <AuthProvider user={user}>
-        {children}
-      </AuthProvider>
-    </SessionProvider>
+    <SWRConfig value={swrConfig}>
+      {children}
+    </SWRConfig>
   );
 };
