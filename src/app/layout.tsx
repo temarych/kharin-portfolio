@@ -12,11 +12,24 @@ const BASE_URL = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}` 
   : process.env.BASE_URL as string;
 
-const RootLayout = async ({ children }: RootLayoutProps) => {  
+const RootLayout = async ({ children }: RootLayoutProps) => {
+  const response = await fetch(`${BASE_URL}/api/auth/me`, {
+    credentials: "include",
+    headers    : new Headers(headers())
+  });
+
+  const user = response.ok ? await response.json() : null;
+
+  const swrConfig: SWRConfiguration = {
+    fallback: {
+      "/api/auth/me": user
+    }
+  };
+  
   return (
     <html lang="en">
       <body>
-        <Providers swrConfig={{}}>
+        <Providers swrConfig={swrConfig}>
           {children}
         </Providers>
       </body>
