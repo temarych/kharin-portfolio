@@ -27,7 +27,7 @@ export const useAuth = () => {
 
   const signOut = useCallback(
     async () => {
-      await fetch("/api/auth/signin", { method: "POST" });
+      await fetch("/api/auth/signout", { method: "POST" });
       await setUser(null);
       return { data: null, error: null };
     },
