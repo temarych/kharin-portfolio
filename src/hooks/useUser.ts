@@ -8,6 +8,8 @@ export const useUser = () => {
     shouldRetryOnError: false
   });
 
+  const user = !error ? data ?? null : null;
+
   const setUser = useCallback(
     async (user: IProfile | null) => {
       return await mutate(user) ?? null;
@@ -22,5 +24,5 @@ export const useUser = () => {
     [mutate]
   );
 
-  return { user: data, isLoading, setUser, refreshUser, error };
+  return { user, isLoading, setUser, refreshUser, error };
 };
