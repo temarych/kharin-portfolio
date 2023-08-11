@@ -4,6 +4,7 @@ import { useRef, useState }  from "react";
 import { useInView, motion } from "framer-motion";
 import { HiPlus }            from "react-icons/hi";
 import { useAuth }           from "@hooks/useAuth";
+import { usePhotos }         from "@hooks/usePhotos";
 import { Button }            from "@components/Button";
 import { AnchorMask }        from "../AnchorMask";
 import { GalleryGrid }       from "./GalleryGrid";
@@ -11,42 +12,12 @@ import { GalleryItem }       from "./GalleryItem";
 import { ViewPhotoDialog }   from "./ViewPhotoDialog";
 import { AddPhotoDialog }    from "./AddPhotoDialog";
 
-const photos = [
-  "/gallery-photo-1.jpg",
-  "/gallery-photo-2.jpg",
-  "/gallery-photo-3.jpg",
-  "/gallery-photo-4.jpg",
-  "/gallery-photo-5.jpg",
-  "/gallery-photo-6.jpg",
-  "/gallery-photo-7.jpg",
-  "/gallery-photo-1.jpg",
-  "/gallery-photo-2.jpg",
-  "/gallery-photo-3.jpg",
-  "/gallery-photo-4.jpg",
-  "/gallery-photo-5.jpg",
-  "/gallery-photo-6.jpg",
-  "/gallery-photo-7.jpg",
-  "/gallery-photo-1.jpg",
-  "/gallery-photo-2.jpg",
-  "/gallery-photo-3.jpg",
-  "/gallery-photo-4.jpg",
-  "/gallery-photo-5.jpg",
-  "/gallery-photo-6.jpg",
-  "/gallery-photo-7.jpg",
-  "/gallery-photo-1.jpg",
-  "/gallery-photo-2.jpg",
-  "/gallery-photo-3.jpg",
-  "/gallery-photo-4.jpg",
-  "/gallery-photo-5.jpg",
-  "/gallery-photo-6.jpg",
-  "/gallery-photo-7.jpg"
-];
-
 const Gallery = () => {
   const controlRef                  = useRef<HTMLDivElement>(null);
   const { isAuthorized }            = useAuth();
   const isControlInView             = useInView(controlRef);
   const [openDialog, setOpenDialog] = useState<"add-photo" | "view-photo" | null>(null);
+  const { photos }                  = usePhotos();
 
   return (
     <section className="pt-24 pb-8 flex flex-col items-center px-4">
@@ -57,22 +28,22 @@ const Gallery = () => {
             <Button 
               color         = "green"
               leftAdornment = {<HiPlus />} 
-              onClick       = {async () => setOpenDialog("add-photo")}
+              onClick       = {() => setOpenDialog("add-photo")}
             >
               Add photo
             </Button>
           )}
         </div>
         <GalleryGrid>
-          {photos.map((photo, index) => (
+          {photos.map(photo => (
             <motion.div 
-              key        = {index} 
+              key        = {photo.id} 
               initial    = {{ scale: 1 }} 
               whileHover = {{ scale: 1.015 }}
               className  = "cursor-pointer"
               onClick    = {() => setOpenDialog("view-photo")}
             >
-              <GalleryItem src={photo} />
+              <GalleryItem src={photo.url} />
             </motion.div>
           ))}
         </GalleryGrid>

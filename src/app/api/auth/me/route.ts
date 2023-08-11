@@ -1,21 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createEdgeRouter }          from "next-connect";
 import createHttpError               from "http-errors";
 import { JsonWebTokenError }         from "jsonwebtoken";
-import { errorHandler }              from "@api/errorHandler";
+import { withErrorHandler }          from "@api/withErrorHandler";
 import { jwt }                       from "@utils/jwt";
 import { prisma }                    from "@utils/prisma";
 import { Profile }                   from "@typings/user";
 
-export type RequestContext = {};
-
-const router = createEdgeRouter<NextRequest, RequestContext>();
-
-router.use(async (request, response, next) => {
-  return next().catch(errorHandler);
-});
-
-router.get(async request => {
+export const GET = withErrorHandler(async (request: NextRequest) => {
   try {
     const accessToken = request.cookies.get("accessToken")?.value ?? null;
   
@@ -42,7 +33,3 @@ router.get(async request => {
     throw error;
   }
 });
-
-export const GET = async (request: NextRequest, ctx: RequestContext) => {
-  return router.run(request, ctx);
-};
