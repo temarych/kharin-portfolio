@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useState }  from "react";
+import { useRef }            from "react";
 import { useInView, motion } from "framer-motion";
+import { useRouter }         from "next/navigation";
 import { HiPlus }            from "react-icons/hi";
 import { useAuth }           from "@hooks/useAuth";
 import { usePhotos }         from "@hooks/usePhotos";
@@ -9,15 +10,13 @@ import { Button }            from "@components/Button";
 import { AnchorMask }        from "../AnchorMask";
 import { GalleryGrid }       from "./GalleryGrid";
 import { GalleryItem }       from "./GalleryItem";
-import { ViewPhotoDialog }   from "./ViewPhotoDialog";
-import { AddPhotoDialog }    from "./AddPhotoDialog";
 
 const Gallery = () => {
-  const controlRef                  = useRef<HTMLDivElement>(null);
-  const { isAuthorized }            = useAuth();
-  const isControlInView             = useInView(controlRef);
-  const [openDialog, setOpenDialog] = useState<"add-photo" | "view-photo" | null>(null);
-  const { photos }                  = usePhotos();
+  const router           = useRouter();
+  const controlRef       = useRef<HTMLDivElement>(null);
+  const { isAuthorized } = useAuth();
+  const isControlInView  = useInView(controlRef);
+  const { photos }       = usePhotos();
 
   return (
     <section className="pt-24 pb-8 flex flex-col items-center px-4">
@@ -28,7 +27,7 @@ const Gallery = () => {
             <Button 
               color         = "green"
               leftAdornment = {<HiPlus />} 
-              onClick       = {() => setOpenDialog("add-photo")}
+              onClick       = {() => router.push("/gallery/add/photo")}
             >
               Add photo
             </Button>
@@ -41,7 +40,7 @@ const Gallery = () => {
               initial    = {{ scale: 1 }} 
               whileHover = {{ scale: 1.015 }}
               className  = "cursor-pointer"
-              onClick    = {() => setOpenDialog("view-photo")}
+              onClick    = {() => router.push(`/gallery/photo/${photo.id}`)}
             >
               <GalleryItem src={photo.url} />
             </motion.div>
@@ -49,14 +48,6 @@ const Gallery = () => {
         </GalleryGrid>
       </div>
       <AnchorMask isAnchorShown={!isControlInView} />
-      <ViewPhotoDialog 
-        isOpen  = {openDialog === "view-photo"} 
-        onClose = {() => setOpenDialog(null)} 
-      />
-      <AddPhotoDialog 
-        isOpen  = {openDialog === "add-photo"} 
-        onClose = {() => setOpenDialog(null)} 
-      />
     </section>
   );
 };
