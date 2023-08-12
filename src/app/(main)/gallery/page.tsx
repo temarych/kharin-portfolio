@@ -47,7 +47,6 @@ const Gallery = () => {
               color         = "green"
               leftAdornment = {<HiPlus />} 
               onClick       = {() => router.push("/gallery/add/photo")}
-              className     = "min-h-[2.8em]"
             >
               Add photo
             </Button>
