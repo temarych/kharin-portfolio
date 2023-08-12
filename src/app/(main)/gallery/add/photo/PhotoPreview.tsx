@@ -9,7 +9,7 @@ export interface PhotoPreviewProps {
 
 export const PhotoPreview = ({ photo }: PhotoPreviewProps) => {
   return (
-    <div className="relative rounded-xl bg-gray-50 aspect-[3/4] w-full overflow-hidden">
+    <div className="relative rounded-xl bg-gray-50 aspect-[0.75] w-full overflow-hidden">
       <Image
         fill
         src       = {photo.url}
