@@ -1,7 +1,7 @@
 "use client";
 
-import { HiCalendar, HiCamera, HiUpload } from "react-icons/hi";
-import { Photo }                          from "./PickPhoto";
+import { HiCalendar, HiCamera, HiTag, HiUpload } from "react-icons/hi";
+import { Photo }                                 from "./PickPhoto";
 
 export interface PhotoDetailsProps {
   photo: Photo;
@@ -35,7 +35,7 @@ export const PhotoDetails = ({ photo }: PhotoDetailsProps) => {
       </div>
 
       <div className="flex flex-row items-center gap-4">
-        <HiCamera className="text-2xl" />
+        <HiTag className="text-2xl" />
         <div className="flex flex-col">
           <p className="text-md text-gray-400">Type</p>
           <h1 className="text-xl">{photo.file.type}</h1>
