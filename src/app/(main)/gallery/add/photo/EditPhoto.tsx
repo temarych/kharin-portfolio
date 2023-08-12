@@ -15,7 +15,7 @@ export interface EditPhotoProps {
 export const EditPhoto = ({ photo, onRemove }: EditPhotoProps) => {
   return (
     <div className="flex flex-col items-center">
-      <div className="grid grid-cols-2 gap-12 max-w-[60em] w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-[60em] w-full">
         <div className="flex flex-col items-end">
           <div className="relative rounded-xl bg-gray-50 aspect-[3/4] w-full overflow-hidden">
             <Image 
@@ -34,7 +34,7 @@ export const EditPhoto = ({ photo, onRemove }: EditPhotoProps) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-12 py-12">
+        <div className="flex flex-col gap-12 lg:py-12">
           <PhotoDetails photo={photo} />
           <div className="flex flex-col gap-4">
             <Input placeholder="Title" />

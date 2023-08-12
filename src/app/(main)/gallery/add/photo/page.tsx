@@ -45,6 +45,6 @@ const AddPhoto = () => {
       </div>
     </div>
   );
-}
+};
 
 export default AddPhoto;
