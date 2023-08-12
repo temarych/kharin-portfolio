@@ -33,6 +33,6 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
 });
 
 export const GET = withErrorHandler(async () => {
-  const photos = await prisma.photo.findMany({ take: 10 });
+  const photos = await prisma.photo.findMany({ take: 20 });
   return NextResponse.json({ photos });
 });

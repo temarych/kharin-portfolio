@@ -12,7 +12,7 @@ const BASE_URL = process.env.VERCEL_URL
   : process.env.BASE_URL as string;
 
 const MainLayout = async ({ children }: MainLayoutProps) => {
-  const response       = await fetch(`${BASE_URL}/api/photos`);
+  const response       = await fetch(`${BASE_URL}/api/photos`, { next: { tags: ["photos"] } });
   const photosResponse = response.ok ? await response.json() : null;
 
   const swrConfig: SWRConfiguration = {

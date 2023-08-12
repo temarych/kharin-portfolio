@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { revalidate }                       from "@utils/revalidate";
 import { Photo, PickPhoto }                 from "./PickPhoto";
 import { ViewPhoto }                        from "./ViewPhoto";
 
@@ -43,6 +44,7 @@ const AddPhoto = () => {
         method: "POST",
         body  : formData
       });
+      await revalidate("photos");
       setPhoto(null);
       setIsUploading(false);
     },
