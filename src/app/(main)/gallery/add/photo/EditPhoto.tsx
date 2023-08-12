@@ -17,7 +17,7 @@ export const EditPhoto = ({ photo, onRemove }: EditPhotoProps) => {
         <PhotoPreview photo={photo} />
         <div className="flex flex-col justify-between gap-16 md:gap-8 md:py-8">
           <PhotoDetails photo={photo} />
-          <div className="flex flex-col-reverse md:flex-row gap-6">
+          <div className="flex flex-col-reverse md:flex-row gap-4">
             <Button variant="outlined" className="w-full" onClick={onRemove}>Discard</Button>
             <Button className="w-full">Add photo</Button>
           </div>
