@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Button }              from "@components/Button";
-import { Photo, PickPhoto }    from "./PickPhoto";
-import { EditPhoto }           from "./EditPhoto";
+import { useCallback, useEffect, useState } from "react";
+import { Button }                           from "@components/Button";
+import { Photo, PickPhoto }                 from "./PickPhoto";
+import { EditPhoto }                        from "./EditPhoto";
 
-export const AddPhoto = () => {
-  const [photo, setPhoto] = useState<Photo | null>(null);
+const AddPhoto = () => {
+  const [photo, setPhotoPlain] = useState<Photo | null>(null);
 
   useEffect(
     () => () => {
@@ -15,21 +15,24 @@ export const AddPhoto = () => {
     [photo]
   );
 
+  const setPhoto = useCallback(
+    (photo: Photo | null) => {
+      setPhotoPlain(prevPhoto => {
+        prevPhoto && URL.revokeObjectURL(prevPhoto.url);
+        return photo;
+      });
+    },
+    []
+  );
+
   return (
     <div>
       <section className="flex flex-col items-center pt-16 pb-20 pb- px-4">
         <div className="max-w-[80em] w-full py-8 flex flex-col">
           {!photo ? (
-            <PickPhoto 
-              onPick={photo => {
-                setPhoto(prevPhoto => {
-                  prevPhoto && URL.revokeObjectURL(prevPhoto.url);
-                  return photo;
-                });
-              }} 
-            />
+            <PickPhoto onPick={setPhoto} />
           ) : (
-            <EditPhoto photo={photo} />
+            <EditPhoto photo={photo} onRemove={() => setPhoto(null)} />
           )}
         </div>
       </section>
