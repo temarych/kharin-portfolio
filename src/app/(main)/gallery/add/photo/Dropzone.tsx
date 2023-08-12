@@ -1,36 +1,22 @@
 "use client";
 
-import { useCallback, useState } from "react";
 import { twMerge }               from "tailwind-merge";
 import { useDropzone }           from "react-dropzone";
 import { HiOutlineDocumentAdd }  from "react-icons/hi";
 import { Button }                from "@components/Button";
 
 export interface DropzoneProps {
-  value?   : File[];
-  onChange?: (files: File[]) => void;
+  onDrop?: (file: File) => void;
 }
 
-export const Dropzone = ({ value: propValue, onChange }: DropzoneProps) => {
-  const isControlled                = propValue !== undefined;
-  const [innerValue, setInnerValue] = useState<File[]>([]);
-  const value                       = isControlled ? propValue : innerValue;
-
-  const setValue = useCallback(
-    (value: File[]) => {
-      !isControlled && setInnerValue(value);
-      onChange && onChange(value);
-    },
-    [isControlled, onChange]
-  );
-
+export const Dropzone = ({ onDrop }: DropzoneProps) => {
   const { getRootProps, getInputProps, isDragActive, isDragReject, open } = useDropzone({
-    onDrop: files => {
-      setValue([...value, ...files]);
-    },
-    noClick: true,
+    noClick : true,
     multiple: false,
-    accept: {
+    onDrop  : files => {
+      onDrop && onDrop(files[0]);
+    },
+    accept  : {
       "image/jpg" : [".jpg", ".JPG"],
       "image/png" : [".png", ".PNG"],
       "image/jpeg": [".jpeg", ".JPEG"]
