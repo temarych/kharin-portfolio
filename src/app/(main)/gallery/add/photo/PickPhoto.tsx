@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState, useTransition } from "react";
-import { HiCamera, HiSparkles, HiUpload }              from "react-icons/hi";
-import { Dropzone }                                    from "./Dropzone";
-import { Hint }                                        from "./Hint";
+import { useEffect, useMemo, useState }   from "react";
+import { HiCamera, HiSparkles, HiUpload } from "react-icons/hi";
+import { Dropzone }                       from "./Dropzone";
+import { Hint }                           from "./Hint";
 
 export interface PhotoSize {
   width : number;
@@ -35,7 +35,6 @@ export interface PickPhotoProps {
 }
 
 export const PickPhoto = ({ onPick }: PickPhotoProps) => {
-  const [isPending, startTransition] = useTransition();
   const [file, setFile] = useState<File | null>(null);
   const [size, setSize] = useState<PhotoSize | null>(null);
   const [url, setURL]   = useState<string | null>(null);
@@ -78,7 +77,7 @@ export const PickPhoto = ({ onPick }: PickPhotoProps) => {
 
   return (
     <div className="flex flex-col gap-8">
-      <Dropzone onDrop={file => startTransition(() => setFile(file))} />
+      <Dropzone onDrop={setFile} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-4 gap-4">
         <Hint
           icon        = {<HiUpload className="text-4xl text-gray-800" />}
