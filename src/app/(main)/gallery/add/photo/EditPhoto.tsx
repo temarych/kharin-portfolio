@@ -34,7 +34,7 @@ export const EditPhoto = ({ photo, onRemove }: EditPhotoProps) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-12 lg:py-12">
+        <div className="flex flex-col gap-8 lg:gap-12 lg:py-12">
           <PhotoDetails photo={photo} />
           <div className="flex flex-col">
             <h1 className="font-bold text-2xl">Details</h1>
