@@ -41,7 +41,7 @@ export const ListItemButton = forwardRef<HTMLButtonElement, ListItemButtonProps>
       {...props} 
       ref       = {ref} 
       className = {twMerge([
-        "w-full text-left transition",
+        "w-full text-left outline-none transition",
         colorStyles.common,
         isSelected === undefined ? colorStyles.default : 
         isSelected ? colorStyles.selected : null,

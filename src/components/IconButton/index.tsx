@@ -12,7 +12,7 @@ const IconButtonWithRef = (
   ref                              : ForwardedRef<HTMLButtonElement>
 ) => {
   return (
-    <button {...props} ref={ref} className={twMerge(["w-11 h-11 rounded-full flex flex-col items-center justify-center text-gray-600 hover:bg-gray-200/50 active:bg-gray-300/50 transition", className])}>
+    <button {...props} ref={ref} className={twMerge(["w-11 h-11 rounded-full flex flex-col items-center justify-center text-gray-600 hover:bg-gray-200/50 active:bg-gray-300/50 transition outline-gray-600", className])}>
       {children}
     </button>
   );

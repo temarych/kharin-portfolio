@@ -30,7 +30,7 @@ export const ButtonOutlined = forwardRef<HTMLButtonElement, BaseButtonProps>(({
       {...props} 
       ref       = {ref} 
       className = {twMerge([
-        "min-h-[3em] rounded-lg disabled:border-gray-200 disabled:text-gray-500 disabled:bg-gray-50 border flex flex-row items-center justify-center gap-2 transition", 
+        "min-h-[3em] rounded-lg disabled:border-gray-200 disabled:text-gray-500 disabled:bg-gray-50 border flex flex-row items-center justify-center gap-2 transition outline-gray-600", 
         leftAdornment ? "pl-4" : "pl-6",
         rightAdornment ? "pr-4" : "pr-6",
         colorStyles, 

@@ -27,7 +27,7 @@ const FloatingButtonWithRef = (
   const colorStyles = colorMap[color];
 
   return (
-    <button {...props} ref={ref} className={twMerge(["w-14 h-14 rounded-full flex flex-col items-center justify-center transition", colorStyles, className])}>
+    <button {...props} ref={ref} className={twMerge(["w-14 h-14 rounded-full flex flex-col items-center justify-center transition outline-gray-600 outline-offset-4", colorStyles, className])}>
       {children}
     </button>
   );

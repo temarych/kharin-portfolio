@@ -42,7 +42,7 @@ export const ListItemTabDiv = forwardRef<HTMLDivElement, ListItemTabDivProps>(({
       ref       = {ref} 
       tabIndex  = {tabIndex}
       className = {twMerge([
-        "w-full text-left transition cursor-pointer",
+        "w-full text-left outline-none transition cursor-pointer",
         colorStyles.common,
         isSelected === undefined ? colorStyles.default : 
         isSelected ? colorStyles.selected : null,
