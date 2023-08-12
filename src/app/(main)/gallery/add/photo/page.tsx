@@ -2,10 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Photo, PickPhoto }                 from "./PickPhoto";
-import { EditPhoto }                        from "./EditPhoto";
+import { ViewPhoto }                        from "./ViewPhoto";
 
 const AddPhoto = () => {
-  const [photo, setPhotoPlain] = useState<Photo | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [photo, setPhotoPlain]        = useState<Photo | null>(null);
 
   useEffect(
     () => () => {
@@ -24,10 +25,39 @@ const AddPhoto = () => {
     []
   );
 
+  const handleRemove = useCallback(
+    () => {
+      if (isUploading) return;
+      setPhoto(null);
+    },
+    [setPhoto, isUploading]
+  );
+
+  const handleUpload = useCallback(
+    async () => {
+      if (!photo || isUploading) return;
+      const formData = new FormData();
+      formData.set("photo", photo.file);
+      setIsUploading(true);
+      await fetch("/api/photos", {
+        method: "POST",
+        body  : formData
+      });
+      setPhoto(null);
+      setIsUploading(false);
+    },
+    [photo, isUploading, setPhoto]
+  );
+
   return !photo ? (
     <PickPhoto onPick={setPhoto} />
   ) : (
-    <EditPhoto photo={photo} onRemove={() => setPhoto(null)} />
+    <ViewPhoto 
+      photo       = {photo} 
+      onRemove    = {handleRemove} 
+      onUpload    = {handleUpload}
+      isUploading = {isUploading}
+    />
   );
 };
 
