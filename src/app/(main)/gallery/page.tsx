@@ -3,10 +3,18 @@
 import { useRef }            from "react";
 import { useInView, motion } from "framer-motion";
 import { useRouter }         from "next/navigation";
-import { HiPlus }            from "react-icons/hi";
+import { 
+  HiClock, 
+  HiFire, 
+  HiOutlineClock, 
+  HiOutlineFire, 
+  HiPlus 
+}                            from "react-icons/hi";
 import { useAuth }           from "@hooks/useAuth";
 import { usePhotos }         from "@hooks/usePhotos";
 import { Button }            from "@components/Button";
+import { ToggleGroup }       from "@components/Toggle/ToggleGroup";
+import { ToggleOption }      from "@components/Toggle/ToggleOption";
 import { AnchorMask }        from "../AnchorMask";
 import { GalleryGrid }       from "./GalleryGrid";
 import { GalleryItem }       from "./GalleryItem";
@@ -22,12 +30,24 @@ const Gallery = () => {
     <section className="pt-24 pb-8 flex flex-col items-center px-4">
       <div className="max-w-[80em] w-full flex flex-col gap-8">
         <div ref={controlRef} className="flex flex-row items-center justify-between">
-          <h1 className="font-bold text-3xl">Gallery</h1>
+          <ToggleGroup defaultValue="popular">
+            <ToggleOption 
+              value       = "popular" 
+              icon        = {<HiOutlineFire className="text-lg" />} 
+              checkedIcon = {<HiFire className="text-lg" />} 
+            />
+            <ToggleOption 
+              value       = "recent" 
+              icon        = {<HiOutlineClock className="text-lg" />} 
+              checkedIcon = {<HiClock className="text-lg" />} 
+            />
+          </ToggleGroup>
           {isAuthorized && (
             <Button 
               color         = "green"
               leftAdornment = {<HiPlus />} 
               onClick       = {() => router.push("/gallery/add/photo")}
+              className     = "min-h-[2.8em]"
             >
               Add photo
             </Button>
