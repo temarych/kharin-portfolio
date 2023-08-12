@@ -14,8 +14,8 @@ export interface EditPhotoProps {
 
 export const EditPhoto = ({ photo, onRemove }: EditPhotoProps) => {
   return (
-    <div className="flex flex-col items-center">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-[60em] w-full">
+    <section className="flex flex-col items-center pt-16 pb-20 px-4">
+      <div className="max-w-[60em] w-full grid grid-cols-1 lg:grid-cols-2 gap-8 py-8">
         <div className="flex flex-col items-end">
           <div className="relative rounded-xl bg-gray-50 aspect-[3/4] w-full overflow-hidden">
             <Image 
@@ -36,6 +36,10 @@ export const EditPhoto = ({ photo, onRemove }: EditPhotoProps) => {
         </div>
         <div className="flex flex-col gap-12 lg:py-12">
           <PhotoDetails photo={photo} />
+          <div className="flex flex-col">
+            <h1 className="font-bold text-2xl">Details</h1>
+            <p className="text-gray-400 text-md">Add some details, so that your photo is easier to find</p>
+          </div>
           <div className="flex flex-col gap-4">
             <Input placeholder="Title" />
             <Input placeholder="Location" />
@@ -43,6 +47,6 @@ export const EditPhoto = ({ photo, onRemove }: EditPhotoProps) => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
