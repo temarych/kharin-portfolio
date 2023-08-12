@@ -20,7 +20,14 @@ export const AddPhoto = () => {
       <section className="flex flex-col items-center pt-16 pb-20 pb- px-4">
         <div className="max-w-[80em] w-full py-8 flex flex-col">
           {!photo ? (
-            <PickPhoto onPick={setPhoto} />
+            <PickPhoto 
+              onPick={photo => {
+                setPhoto(prevPhoto => {
+                  prevPhoto && URL.revokeObjectURL(prevPhoto.url);
+                  return photo;
+                });
+              }} 
+            />
           ) : (
             <EditPhoto photo={photo} />
           )}
