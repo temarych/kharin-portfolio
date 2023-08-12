@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import createHttpError               from "http-errors";
 
-export type NextRoute = (request: NextRequest) => Promise<NextResponse>;
+export type NextRoute = (request: NextRequest, ...args: any[]) => Promise<NextResponse>;
 
 export const withErrorHandler = (route: NextRoute): NextRoute => {
-  return async request => {
+  return async (request, ...args) => {
     try {
-      return await route(request);
+      return await route(request, ...args);
     } catch (error) {
       if (createHttpError.isHttpError(error)) {
         return NextResponse.json({ message: error.message }, { status: error.status });

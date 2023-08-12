@@ -3,10 +3,10 @@ import createHttpError               from "http-errors";
 import { JsonWebTokenError }         from "jsonwebtoken";
 import { jwt }                       from "@utils/jwt";
 
-export type NextRoute = (request: NextRequest) => Promise<NextResponse>;
+export type NextRoute = (request: NextRequest, ...args: any[]) => Promise<NextResponse>;
 
 export const withAuth = (route: NextRoute): NextRoute => {
-  return async request => {
+  return async (request, ...args) => {
     try {
       const accessToken = request.cookies.get("accessToken")?.value ?? null;
 
@@ -16,7 +16,7 @@ export const withAuth = (route: NextRoute): NextRoute => {
 
       jwt.verifyToken(accessToken);
 
-      return await route(request);
+      return await route(request, ...args);
 
     } catch (error) {
       if (error instanceof JsonWebTokenError) {
