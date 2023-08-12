@@ -4,6 +4,7 @@ import Image            from "next/image";
 import { HiX }          from "react-icons/hi";
 import { Input }        from "@components/Input";
 import { IconButton }   from "@components/IconButton";
+import { Button }       from "@components/Button";
 import { PhotoDetails } from "./PhotoDetails";
 import { Photo }        from "./PickPhoto";
 
@@ -14,8 +15,8 @@ export interface EditPhotoProps {
 
 export const EditPhoto = ({ photo, onRemove }: EditPhotoProps) => {
   return (
-    <section className="flex flex-col items-center pt-16 pb-20 px-4">
-      <div className="max-w-[60em] w-full grid grid-cols-1 lg:grid-cols-2 gap-8 py-8">
+    <section className="flex flex-col items-center pt-16 px-4">
+      <div className="max-w-[60em] w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 py-8">
         <div className="flex flex-col items-end">
           <div className="relative rounded-xl bg-gray-50 aspect-[3/4] w-full overflow-hidden">
             <Image 
@@ -34,7 +35,7 @@ export const EditPhoto = ({ photo, onRemove }: EditPhotoProps) => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-8 lg:gap-12 lg:py-12">
+        <div className="flex flex-col gap-12 lg:py-12">
           <PhotoDetails photo={photo} />
           <div className="flex flex-col">
             <h1 className="font-bold text-2xl">Details</h1>
@@ -42,8 +43,10 @@ export const EditPhoto = ({ photo, onRemove }: EditPhotoProps) => {
           </div>
           <div className="flex flex-col gap-4">
             <Input placeholder="Title" />
-            <Input placeholder="Location" />
             <Input placeholder="Description" />
+          </div>
+          <div className="flex flex-row items-center lg:justify-end">
+            <Button className="w-full lg:w-1/2">Add photo</Button>
           </div>
         </div>
       </div>

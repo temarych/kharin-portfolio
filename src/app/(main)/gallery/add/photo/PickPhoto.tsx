@@ -76,7 +76,7 @@ export const PickPhoto = ({ onPick }: PickPhotoProps) => {
   );
 
   return (
-    <section className="flex flex-col items-center pt-16 pb-20 px-4">
+    <section className="flex flex-col items-center pt-16 px-4">
       <div className="max-w-[80em] w-full py-8 flex flex-col gap-8">
         <Dropzone onDrop={setFile} />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-4 gap-4">
