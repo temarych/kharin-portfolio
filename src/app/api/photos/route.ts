@@ -5,7 +5,15 @@ import { cloudinary }                               from "@utils/cloudinary";
 import { prisma }                                   from "@utils/prisma";
 import { Photo }                                    from "@typings/photos";
 
-const uploadFile = async (file: File): Promise<string> => {
+interface FileInfo {
+  publicId: string;
+  width   : number;
+  height  : number;
+  format  : string;
+  size    : number;
+}
+
+const uploadFile = async (file: File): Promise<FileInfo> => {
   const arrayBuffer = await file.arrayBuffer();
   const buffer      = Buffer.from(arrayBuffer);
 
@@ -16,7 +24,14 @@ const uploadFile = async (file: File): Promise<string> => {
 
     const handleUpload: UploadResponseCallback = (error, result) => {
       if (error) return reject(error);
-      return resolve(result?.public_id as string);
+      if (!result) return;
+      return resolve({
+        publicId: result.public_id,
+        width   : result.width,
+        height  : result.height,
+        format  : result.format,
+        size    : result.bytes
+      });
     };
 
     cloudinary.v2.uploader
@@ -28,10 +43,13 @@ const uploadFile = async (file: File): Promise<string> => {
 export const POST = withErrorHandler(async (request: NextRequest) => {
   const formData = await request.formData();
   const file     = formData.get("photo") as File;
-  const publicId = await uploadFile(file);
-  const dbPhoto  = await prisma.photo.create({ data: { publicId } });
-  const photoUrl = cloudinary.v2.url(publicId);
+
+  const fileInfo = await uploadFile(file);
+  const dbPhoto  = await prisma.photo.create({ data: { ...fileInfo } });
+
+  const photoUrl = cloudinary.v2.url(dbPhoto.publicId);
   const photo    = new Photo({ ...dbPhoto, url: photoUrl });
+
   return NextResponse.json({ ...photo });
 });
 
