@@ -14,5 +14,12 @@ export const usePhoto = (id: string) => {
     [mutate]
   );
 
-  return { photo, refreshPhoto, isLoading };
+  const updatePhoto = useCallback(
+    async (photo: IPhoto) => {
+      return await mutate(photo) ?? null;
+    },
+    [mutate]
+  );
+
+  return { photo, refreshPhoto, isLoading, updatePhoto };
 };

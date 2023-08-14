@@ -9,7 +9,6 @@ export class Photo implements IPhoto {
   public height    : number;
   public size      : number;
   public format    : string;
-  public views     : number;
   public uploadDate: Date;
 
   constructor(photo: IPhoto) {
@@ -19,7 +18,6 @@ export class Photo implements IPhoto {
     this.height     = photo.height;
     this.size       = photo.size;
     this.format     = photo.format;
-    this.views      = photo.views;
     this.uploadDate = photo.uploadDate;
   }
 }

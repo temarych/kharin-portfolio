@@ -20,13 +20,13 @@ const BASE_URL = process.env.VERCEL_URL
   : process.env.NEXT_PUBLIC_BASE_URL as string;
 
 export const ViewPhotoContent = () => {
-  const router                             = useRouter();
-  const params                             = useParams();
-  const id                                 = params.id as string;
-  const { isAuthorized }                   = useAuth();
-  const { refreshPhotos }                  = usePhotos();
-  const { photo, refreshPhoto, isLoading } = usePhoto(id);
-  const [isDeleting, setIsDeleting]        = useState(false);
+  const router                      = useRouter();
+  const params                      = useParams();
+  const id                          = params.id as string;
+  const { isAuthorized }            = useAuth();
+  const { refreshPhotos }           = usePhotos();
+  const { photo, refreshPhoto }     = usePhoto(id);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = useCallback(
     async () => {
@@ -37,7 +37,7 @@ export const ViewPhotoContent = () => {
       enqueueSnackbar("Deleted!", { variant: "success" });
       await refreshPhotos();
       await revalidate("photos");
-      router.push("/gallery");
+      await revalidate(`photo/${id}`);
     },
     []
   );
@@ -49,15 +49,6 @@ export const ViewPhotoContent = () => {
     },
     []
   );
-
-  if (isLoading) {
-    return (
-      <div className="h-screen bg-white flex flex-col items-center justify-center gap-4">
-        <CircularProgress className="w-10 h-10" color="black" />
-        <h1 className="text-lg">Loading...</h1>
-      </div>
-    );
-  }
 
   if (!photo) {
     return (
@@ -133,11 +124,7 @@ export const ViewPhotoContent = () => {
             />
             <PhotoDetail 
               name  = "Uploaded at"
-              value = {Intl.DateTimeFormat().format(new Date(photo.uploadDate))}
-            />
-            <PhotoDetail 
-              name  = "Views"
-              value = {String(photo.views)}
+              value = {Intl.DateTimeFormat("en-US").format(new Date(photo.uploadDate))}
             />
           </div>
         </div>

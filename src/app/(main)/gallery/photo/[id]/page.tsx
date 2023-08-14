@@ -1,5 +1,4 @@
 import { SWRConfiguration }    from "swr";
-import { incrementPhotoViews } from "@utils/photos";
 import { SWRProvider }         from "@components/SWRProvider";
 import { ViewPhotoContent }    from "./ViewPhotoContent";
 
@@ -15,13 +14,13 @@ interface ViewPhotoProps {
 
 const ViewPhoto = async ({ params }: ViewPhotoProps) => {
   const id       = params.id;
-  const response = await fetch(`${BASE_URL}/api/photos/${id}`, { next: { tags: ["photo"] } });
+  const response = await fetch(`${BASE_URL}/api/photos/${id}`, { next: { tags: [`photo/${id}`] } });
   const photo    = response.ok ? await response.json() : null;
 
-  photo && await incrementPhotoViews(photo.id);
-
   const swrConfig: SWRConfiguration = {
-    [`/api/photos/${id}`]: photo
+    fallback: {
+      [`/api/photos/${id}`]: photo
+    }
   };
 
   return (

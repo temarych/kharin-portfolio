@@ -26,5 +26,4 @@ model Photo {
   format     String
   size       Int
   uploadDate DateTime
-  views      Int @default(0)
 }
