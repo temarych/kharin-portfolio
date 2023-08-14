@@ -45,11 +45,11 @@ export const ViewPhoto = ({ photo, onRemove, onUpload, isUploading }: ViewPhotoP
               value = {Intl.DateTimeFormat().format(new Date(photo.file.lastModified))}
             />
           </div>
-          <div className="flex flex-col-reverse md:flex-row gap-4">
+          <div className="flex flex-col-reverse md:flex-row justify-between gap-4">
             <Button 
               disabled  = {isUploading}
               variant   = "outlined" 
-              className = "w-full" 
+              className = "w-full md:max-w-[15em]" 
               onClick   = {onRemove}
             >
               Discard
@@ -57,7 +57,7 @@ export const ViewPhoto = ({ photo, onRemove, onUpload, isUploading }: ViewPhotoP
             <LoadingButton 
               disabled  = {isUploading}
               isLoading = {isUploading}
-              className = "w-full" 
+              className = "w-full md:max-w-[15em]" 
               onClick   = {onUpload}
             >
               Add photo
