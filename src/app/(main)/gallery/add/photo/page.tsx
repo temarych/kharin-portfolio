@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useRouter }                        from "next/navigation";
 import { enqueueSnackbar }                  from "notistack";
 import { revalidate }                       from "@utils/revalidate";
 import { usePhotos }                        from "@hooks/usePhotos";
@@ -9,7 +8,6 @@ import { Photo, PickPhoto }                 from "./PickPhoto";
 import { ViewPhoto }                        from "./ViewPhoto";
 
 const AddPhoto = () => {
-  const router                        = useRouter();
   const [isUploading, setIsUploading] = useState(false);
   const [photo, setPhotoPlain]        = useState<Photo | null>(null);
   const { refreshPhotos }             = usePhotos();
@@ -49,12 +47,13 @@ const AddPhoto = () => {
         method: "POST",
         body  : formData
       });
+      setPhoto(null);
+      setIsUploading(false);
       enqueueSnackbar("Uploaded!", { variant: "success" });
       await refreshPhotos();
       await revalidate("photos");
-      router.push("/gallery");
     },
-    [photo, isUploading, refreshPhotos, router]
+    [photo, isUploading, refreshPhotos]
   );
 
   return !photo ? (
