@@ -8,6 +8,7 @@ import { usePhotos }                      from "@hooks/usePhotos";
 import { usePhoto }                       from "@hooks/usePhoto";
 import { revalidate }                     from "@utils/revalidate";
 import { IconButton }                     from "@components/IconButton";
+import { CircularProgress }               from "@components/CircularProgress";
 import { Link }                           from "@components/Link";
 import { PhotoDetail }                    from "../../PhotoDetail";
 
@@ -28,7 +29,12 @@ const ViewPhoto = () => {
   };
 
   if (!photo) {
-    return <h1>Loading...</h1>
+    return (
+      <div className="h-screen flex flex-col items-center justify-center gap-4">
+        <CircularProgress className="w-10 h-10" color="black" />
+        <h1 className="text-lg">Loading...</h1>
+      </div>
+    );
   }
 
   return (
