@@ -1,6 +1,6 @@
 "use client";
 
-import { useState }                       from "react";
+import { useCallback, useState }          from "react";
 import Image                              from "next/image";
 import { useParams, useRouter }           from "next/navigation";
 import { HiChevronLeft, HiLink, HiTrash } from "react-icons/hi";
@@ -13,6 +13,10 @@ import { CircularProgress }               from "@components/CircularProgress";
 import { Link }                           from "@components/Link";
 import { PhotoDetail }                    from "../../PhotoDetail";
 
+const BASE_URL = process.env.VERCEL_URL 
+  ? `https://${process.env.VERCEL_URL}` 
+  : process.env.NEXT_PUBLIC_BASE_URL as string;
+
 const ViewPhoto = () => {
   const router                      = useRouter();
   const params                      = useParams();
@@ -22,19 +26,29 @@ const ViewPhoto = () => {
   const { photo, refreshPhoto }     = usePhoto(id);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const handleDelete = async () => {
-    setIsDeleting(true);
-    await fetch(`/api/photos/${id}`, { method: "DELETE" });
-    await refreshPhoto();
-    setIsDeleting(false);
-    await refreshPhotos();
-    await revalidate("photos");
-    router.push("/gallery");
-  };
+  const handleDelete = useCallback(
+    async () => {
+      setIsDeleting(true);
+      await fetch(`/api/photos/${id}`, { method: "DELETE" });
+      await refreshPhoto();
+      setIsDeleting(false);
+      await refreshPhotos();
+      await revalidate("photos");
+      router.push("/gallery");
+    },
+    []
+  );
+
+  const handleCopyLink = useCallback(
+    async () => {
+      navigator.clipboard.writeText(`${BASE_URL}/gallery/photo/${id}`);
+    },
+    []
+  );
 
   if (!photo) {
     return (
-      <div className="h-screen flex flex-col items-center justify-center gap-4">
+      <div className="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center gap-4">
         <CircularProgress className="w-10 h-10" color="black" />
         <h1 className="text-lg">Loading...</h1>
       </div>
@@ -63,6 +77,7 @@ const ViewPhoto = () => {
               <IconButton 
                 className = "border"
                 disabled  = {isDeleting}
+                onClick   = {handleCopyLink}
               >
                 <HiLink className="text-2xl" />
               </IconButton>

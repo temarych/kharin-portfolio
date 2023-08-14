@@ -9,7 +9,7 @@ interface MainLayoutProps {
 
 const BASE_URL = process.env.VERCEL_URL 
   ? `https://${process.env.VERCEL_URL}` 
-  : process.env.BASE_URL as string;
+  : process.env.NEXT_PUBLIC_BASE_URL as string;
 
 const MainLayout = async ({ children }: MainLayoutProps) => {
   const response       = await fetch(`${BASE_URL}/api/photos`, { next: { tags: ["photos"] } });

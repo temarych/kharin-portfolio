@@ -10,7 +10,7 @@ interface RootLayoutProps {
 
 const BASE_URL = process.env.VERCEL_URL 
   ? `https://${process.env.VERCEL_URL}` 
-  : process.env.BASE_URL as string;
+  : process.env.NEXT_PUBLIC_BASE_URL as string;
 
 const RootLayout = async ({ children }: RootLayoutProps) => {
   const response = await fetch(`${BASE_URL}/api/auth/me`, {
