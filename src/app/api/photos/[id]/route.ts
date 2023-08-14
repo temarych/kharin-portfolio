@@ -16,6 +16,10 @@ export const DELETE = withErrorHandler(async (request: NextRequest, { params }: 
 });
 
 export const GET = withErrorHandler(async (request: NextRequest, { params }: { params: Params }) => {
+  if (params.id.length !== 24) {
+    throw new createHttpError.BadRequest("Invalid photo id");
+  } 
+  
   const dbPhoto = await prisma.photo.findFirst({ where: { id: params.id } });
 
   if (!dbPhoto) {

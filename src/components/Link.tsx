@@ -10,7 +10,7 @@ export interface LinkProps {
 }
 
 export const Link = ({ className, href, onClick, children }: LinkProps) => {
-  const styles = twMerge(["text-gray-600 underline decoration-gray-400 hover:text-gray-800 hover:decoration-gray-800 cursor-pointer", className]);
+  const styles = twMerge(["text-gray-600 underline decoration-gray-400 hover:text-gray-800 hover:decoration-gray-800 cursor-pointer outline-gray-600", className]);
 
   return href ? (
     <NextLink 

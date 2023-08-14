@@ -3,6 +3,7 @@
 import { useCallback, useState }          from "react";
 import Image                              from "next/image";
 import { useParams, useRouter }           from "next/navigation";
+import { enqueueSnackbar }                from "notistack";
 import { HiChevronLeft, HiLink, HiTrash } from "react-icons/hi";
 import { useAuth }                        from "@hooks/useAuth";
 import { usePhotos }                      from "@hooks/usePhotos";
@@ -11,6 +12,7 @@ import { revalidate }                     from "@utils/revalidate";
 import { IconButton }                     from "@components/IconButton";
 import { CircularProgress }               from "@components/CircularProgress";
 import { Link }                           from "@components/Link";
+import { Button }                         from "@components/Button";
 import { PhotoDetail }                    from "../../PhotoDetail";
 
 const BASE_URL = process.env.VERCEL_URL 
@@ -18,13 +20,13 @@ const BASE_URL = process.env.VERCEL_URL
   : process.env.NEXT_PUBLIC_BASE_URL as string;
 
 const ViewPhoto = () => {
-  const router                      = useRouter();
-  const params                      = useParams();
-  const id                          = params.id as string;
-  const { isAuthorized }            = useAuth();
-  const { refreshPhotos }           = usePhotos();
-  const { photo, refreshPhoto }     = usePhoto(id);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const router                             = useRouter();
+  const params                             = useParams();
+  const id                                 = params.id as string;
+  const { isAuthorized }                   = useAuth();
+  const { refreshPhotos }                  = usePhotos();
+  const { photo, refreshPhoto, isLoading } = usePhoto(id);
+  const [isDeleting, setIsDeleting]        = useState(false);
 
   const handleDelete = useCallback(
     async () => {
@@ -32,6 +34,7 @@ const ViewPhoto = () => {
       await fetch(`/api/photos/${id}`, { method: "DELETE" });
       await refreshPhoto();
       setIsDeleting(false);
+      enqueueSnackbar("Deleted!", { variant: "success" });
       await refreshPhotos();
       await revalidate("photos");
       router.push("/gallery");
@@ -42,15 +45,34 @@ const ViewPhoto = () => {
   const handleCopyLink = useCallback(
     async () => {
       navigator.clipboard.writeText(`${BASE_URL}/gallery/photo/${id}`);
+      enqueueSnackbar("Link copied!", { variant: "success" });
     },
     []
   );
 
-  if (!photo) {
+  if (isLoading) {
     return (
-      <div className="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center gap-4">
+      <div className="h-screen bg-white flex flex-col items-center justify-center gap-4">
         <CircularProgress className="w-10 h-10" color="black" />
         <h1 className="text-lg">Loading...</h1>
+      </div>
+    );
+  }
+
+  if (!photo) {
+    return (
+      <div className="h-screen flex flex-col items-center justify-center gap-8">
+        <div className="flex flex-col items-center justify-center gap-2">
+          <h1 className="font-bold text-5xl">404</h1>
+          <p className="text-md">Photo not found</p>
+        </div>
+        <Button 
+          onClick       = {() => router.push("/gallery")} 
+          className     = "text-lg flex flex-row items-center gap-2 min-h-[2.7em]"
+          leftAdornment = {<HiChevronLeft className="text-2xl" />}
+        >
+          Back to gallery
+        </Button>
       </div>
     );
   }

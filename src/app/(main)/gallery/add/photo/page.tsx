@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useRouter }                        from "next/navigation";
+import { enqueueSnackbar }                  from "notistack";
 import { revalidate }                       from "@utils/revalidate";
 import { usePhotos }                        from "@hooks/usePhotos";
 import { Photo, PickPhoto }                 from "./PickPhoto";
@@ -48,6 +49,7 @@ const AddPhoto = () => {
         method: "POST",
         body  : formData
       });
+      enqueueSnackbar("Uploaded!", { variant: "success" });
       await refreshPhotos();
       await revalidate("photos");
       router.push("/gallery");
