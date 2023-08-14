@@ -1,5 +1,6 @@
 "use client";
 
+import { useState }                       from "react";
 import Image                              from "next/image";
 import { useParams, useRouter }           from "next/navigation";
 import { HiChevronLeft, HiLink, HiTrash } from "react-icons/hi";
@@ -13,16 +14,19 @@ import { Link }                           from "@components/Link";
 import { PhotoDetail }                    from "../../PhotoDetail";
 
 const ViewPhoto = () => {
-  const router                  = useRouter();
-  const params                  = useParams();
-  const id                      = params.id as string;
-  const { isAuthorized }        = useAuth();
-  const { refreshPhotos }       = usePhotos();
-  const { photo, refreshPhoto } = usePhoto(id);
+  const router                      = useRouter();
+  const params                      = useParams();
+  const id                          = params.id as string;
+  const { isAuthorized }            = useAuth();
+  const { refreshPhotos }           = usePhotos();
+  const { photo, refreshPhoto }     = usePhoto(id);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
+    setIsDeleting(true);
     await fetch(`/api/photos/${id}`, { method: "DELETE" });
     await refreshPhoto();
+    setIsDeleting(false);
     await refreshPhotos();
     await revalidate("photos");
     router.push("/gallery");
@@ -56,12 +60,23 @@ const ViewPhoto = () => {
               Back to gallery
             </Link>
             <div className="flex flex-row items-center gap-2">
-              <IconButton className="border">
+              <IconButton 
+                className = "border"
+                disabled  = {isDeleting}
+              >
                 <HiLink className="text-2xl" />
               </IconButton>
               {isAuthorized && (
-                <IconButton className="border" onClick={handleDelete}>
-                  <HiTrash className="text-2xl" />
+                <IconButton 
+                  disabled  = {isDeleting}
+                  className = "border" 
+                  onClick   = {handleDelete}
+                >
+                  {!isDeleting ? (
+                    <HiTrash className="text-2xl" />
+                  ) : (
+                    <CircularProgress color="gray" className="w-6 h-6" />
+                  )}
                 </IconButton>
               )}
             </div>
