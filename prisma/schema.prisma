@@ -19,10 +19,12 @@ model User {
 }
 
 model Photo {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  publicId String
-  width    Int
-  height   Int
-  format   String
-  size     Int
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  publicId   String
+  width      Int
+  height     Int
+  format     String
+  size       Int
+  uploadDate DateTime
+  views      Int @default(0)
 }

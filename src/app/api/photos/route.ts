@@ -41,11 +41,15 @@ const uploadFile = async (file: File): Promise<FileInfo> => {
 };
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
-  const formData = await request.formData();
-  const file     = formData.get("photo") as File;
+  const uploadDate = new Date();
+  const formData   = await request.formData();
+  const file       = formData.get("photo") as File;
 
   const fileInfo = await uploadFile(file);
-  const dbPhoto  = await prisma.photo.create({ data: { ...fileInfo } });
+
+  const dbPhoto = await prisma.photo.create({ 
+    data: { ...fileInfo, uploadDate } 
+  });
 
   const photoUrl = cloudinary.v2.url(dbPhoto.publicId);
   const photo    = new Photo({ ...dbPhoto, url: photoUrl });
