@@ -39,7 +39,7 @@ export const PickPhoto = ({ onPick }: PickPhotoProps) => {
   const [size, setSize] = useState<PhotoSize | null>(null);
   const [url, setURL]   = useState<string | null>(null);
 
-  const photo = useMemo(
+  const photo = useMemo<Photo | null>(
     () => {
       if (!file || !size || !url) return null;
       return { file, size, url };
