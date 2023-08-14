@@ -1,7 +1,7 @@
 "use client";
 
 import Image                              from "next/image";
-import { useParams }                      from "next/navigation";
+import { useParams, useRouter }           from "next/navigation";
 import { HiChevronLeft, HiLink, HiTrash } from "react-icons/hi";
 import { useAuth }                        from "@hooks/useAuth";
 import { usePhotos }                      from "@hooks/usePhotos";
@@ -12,16 +12,19 @@ import { Link }                           from "@components/Link";
 import { PhotoDetail }                    from "../../PhotoDetail";
 
 const ViewPhoto = () => {
-  const params            = useParams();
-  const id                = params.id as string;
-  const { isAuthorized }  = useAuth();
-  const { refreshPhotos } = usePhotos();
-  const { photo }         = usePhoto(id);
+  const router                  = useRouter();
+  const params                  = useParams();
+  const id                      = params.id as string;
+  const { isAuthorized }        = useAuth();
+  const { refreshPhotos }       = usePhotos();
+  const { photo, refreshPhoto } = usePhoto(id);
 
   const handleDelete = async () => {
     await fetch(`/api/photos/${id}`, { method: "DELETE" });
+    await refreshPhoto();
     await refreshPhotos();
     await revalidate("photos");
+    router.push("/gallery");
   };
 
   if (!photo) {
