@@ -5,11 +5,27 @@ import { twMerge }   from "tailwind-merge";
 export interface LinkProps {
   className?: string;
   children? : ReactNode;
-  href      : string;
+  href?     : string;
+  onClick?  : () => void;
 }
 
-export const Link = ({ className, ...props }: LinkProps) => {
-  return (
-    <NextLink {...props} className={twMerge(["text-gray-600 underline decoration-gray-400 hover:text-gray-800 hover:decoration-gray-800", className])} />
+export const Link = ({ className, href, onClick, children }: LinkProps) => {
+  const styles = twMerge(["text-gray-600 underline decoration-gray-400 hover:text-gray-800 hover:decoration-gray-800 cursor-pointer outline-gray-600", className]);
+
+  return href ? (
+    <NextLink 
+      href      = {href} 
+      className = {styles} 
+      onClick   = {onClick}
+    >
+      {children}
+    </NextLink>
+  ) : (
+    <p
+      className = {styles} 
+      onClick   = {onClick}
+    >
+      {children}
+    </p>
   );
 };

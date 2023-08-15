@@ -17,3 +17,13 @@ model User {
   firstName String
   lastName  String
 }
+
+model Photo {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  publicId   String
+  width      Int
+  height     Int
+  format     String
+  size       Int
+  uploadDate DateTime
+}
