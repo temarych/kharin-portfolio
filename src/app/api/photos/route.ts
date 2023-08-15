@@ -5,7 +5,8 @@ import { withErrorHandler }                         from "@api/withErrorHandler"
 import { withAuth }                                 from "@api/withAuth";
 import { cloudinary }                               from "@utils/cloudinary";
 import { prisma }                                   from "@utils/prisma";
-import { Photo }                                    from "@typings/photos";
+import { Photo, PhotoPreview }                      from "@typings/photos";
+import { CollectionPreview }                        from "@typings/collections";
 
 interface FileInfo {
   publicId: string;
@@ -50,11 +51,13 @@ export const POST = withErrorHandler(withAuth(async (request: NextRequest) => {
   const fileInfo = await uploadFile(file);
 
   const dbPhoto = await prisma.photo.create({ 
-    data: { ...fileInfo, uploadDate } 
+    data   : { ...fileInfo, uploadDate },
+    include: { collections: true }
   });
 
-  const photoUrl = cloudinary.v2.url(dbPhoto.publicId);
-  const photo    = new Photo({ ...dbPhoto, url: photoUrl });
+  const url         = cloudinary.v2.url(dbPhoto.publicId);
+  const collections = dbPhoto.collections.map(collection => new CollectionPreview(collection));
+  const photo       = new Photo({ ...dbPhoto, url, collections });
 
   return NextResponse.json({ ...photo });
 }));
@@ -75,6 +78,10 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
   const photoCount = await prisma.photo.count();
   const pages      = Math.ceil(photoCount / limit);
 
+  if (!pages) {
+    return NextResponse.json({ page, pages, limit, photos: [] });
+  }
+
   if (page > pages) {
     throw new createHttpError.BadRequest("Invalid page index");
   }
@@ -86,8 +93,8 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
   });
 
   const photos = dbPhotos.map(photo => {
-    const photoUrl = cloudinary.v2.url(photo.publicId);
-    return new Photo({ ...photo, url: photoUrl });
+    const url = cloudinary.v2.url(photo.publicId);
+    return new PhotoPreview({ ...photo, url });
   });
 
   return NextResponse.json({ page, pages, limit, photos });

@@ -14,7 +14,7 @@ const BASE_URL = process.env.VERCEL_URL
 
 const MainLayout = async ({ children }: MainLayoutProps) => {
   const response       = await fetch(`${BASE_URL}/api/photos?page=1`, { next: { tags: ["photos"] } });
-  const photosResponse = response.ok ? await response.json() : null;
+  const photosResponse = await response.json();
 
   const swrConfig: SWRConfiguration = {
     fallback: {
