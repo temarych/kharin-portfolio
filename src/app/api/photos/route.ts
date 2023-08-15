@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse }                from "next/server";
+import createHttpError                              from "http-errors";
 import { UploadApiOptions, UploadResponseCallback } from "cloudinary";
 import { withErrorHandler }                         from "@api/withErrorHandler";
 import { cloudinary }                               from "@utils/cloudinary";
@@ -57,13 +58,35 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   return NextResponse.json({ ...photo });
 });
 
-export const GET = withErrorHandler(async () => {
-  const dbPhotos = await prisma.photo.findMany({ take: 20 });
+export const GET = withErrorHandler(async (request: NextRequest) => {
+  const limit     = 8;
+  const pageQuery = request.nextUrl.searchParams.get("page");
+  const page      = pageQuery ? Number(pageQuery) : null;
+
+  if (page === null) {
+    throw new createHttpError.BadRequest("Page not provided");
+  }
+
+  if (page <= 0) {
+    throw new createHttpError.BadRequest("Invalid page index");
+  }
+
+  const photoCount = await prisma.photo.count();
+  const pages      = Math.ceil(photoCount / limit);
+
+  if (page > pages) {
+    throw new createHttpError.BadRequest("Invalid page index");
+  }
+
+  const dbPhotos = await prisma.photo.findMany({ 
+    skip: (page - 1) * limit, 
+    take: limit 
+  });
 
   const photos = dbPhotos.map(photo => {
     const photoUrl = cloudinary.v2.url(photo.publicId);
     return new Photo({ ...photo, url: photoUrl });
   });
 
-  return NextResponse.json({ photos });
+  return NextResponse.json({ page, pages, limit, photos });
 });

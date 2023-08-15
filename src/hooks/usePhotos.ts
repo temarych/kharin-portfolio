@@ -1,10 +1,26 @@
 import { useCallback } from "react";
-import useSWR          from "swr";
+import useSWRInfinite  from "swr/infinite";
 import { IPhoto }      from "@typings/photos";
 import { fetcher }     from "@utils/fetcher";
 
+export interface IGetPhotoResponse {
+  page  : number;
+  pages : number;
+  limit : number;
+  photos: IPhoto[];
+}
+
 export const usePhotos = () => {
-  const { data, mutate } = useSWR("/api/photos", fetcher);
+  const { data, setSize, size, mutate, isValidating } = useSWRInfinite<IGetPhotoResponse>((pageIndex, prevPageData) => {
+    if (prevPageData && prevPageData.page === prevPageData.pages) return null;
+    return `/api/photos?page=${pageIndex + 1}`;
+  }, fetcher, {
+    shouldRetryOnError: false
+  });
+
+  const photos            = data ? data.flatMap(response => response.photos as IPhoto[]) : [];
+  const lastPhotoResponse = data ? data.at(data.length - 1) ?? null : null;
+  const canFetchMore      = lastPhotoResponse ? lastPhotoResponse.page < lastPhotoResponse.pages : false;
 
   const refreshPhotos = useCallback(
     async () => {
@@ -13,5 +29,5 @@ export const usePhotos = () => {
     [mutate]
   );
 
-  return { photos: data ? data.photos as IPhoto[] : [], refreshPhotos };
+  return { photos, setSize, size, refreshPhotos, isValidating, canFetchMore };
 };

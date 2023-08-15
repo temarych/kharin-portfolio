@@ -7,16 +7,17 @@ import { HiPlus }            from "react-icons/hi";
 import { useAuth }           from "@hooks/useAuth";
 import { usePhotos }         from "@hooks/usePhotos";
 import { Button }            from "@components/Button";
+import { LoadingButton }     from "@components/LoadingButton";
 import { AnchorMask }        from "../AnchorMask";
 import { GalleryGrid }       from "./GalleryGrid";
 import { GalleryItem }       from "./GalleryItem";
 
 const Gallery = () => {
-  const router           = useRouter();
-  const controlRef       = useRef<HTMLDivElement>(null);
-  const { isAuthorized } = useAuth();
-  const isControlInView  = useInView(controlRef);
-  const { photos }       = usePhotos();
+  const router                                          = useRouter();
+  const controlRef                                      = useRef<HTMLDivElement>(null);
+  const { isAuthorized }                                = useAuth();
+  const isControlInView                                 = useInView(controlRef);
+  const { photos, setSize, isValidating, canFetchMore } = usePhotos();
 
   return (
     <section className="pt-24 pb-8 flex flex-col items-center px-4">
@@ -46,6 +47,18 @@ const Gallery = () => {
             </motion.div>
           ))}
         </GalleryGrid>
+        {canFetchMore && (
+          <div className="flex flex-row items-center justify-center">
+            <LoadingButton 
+              variant   = "outlined" 
+              className = "max-w-[10em] w-full"
+              onClick   = {() => !isValidating && setSize(size => size + 1)}
+              isLoading = {isValidating}
+            >
+              Load more
+            </LoadingButton>
+          </div>
+        )}
       </div>
       <AnchorMask isAnchorShown={!isControlInView} />
     </section>
