@@ -15,10 +15,6 @@ import { Link }                           from "@components/Link";
 import { Button }                         from "@components/Button";
 import { PhotoDetail }                    from "../../PhotoDetail";
 
-const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL 
-  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` 
-  : process.env.NEXT_PUBLIC_BASE_URL as string;
-
 export const ViewPhotoContent = () => {
   const router                      = useRouter();
   const params                      = useParams();
@@ -44,7 +40,8 @@ export const ViewPhotoContent = () => {
 
   const handleCopyLink = useCallback(
     async () => {
-      navigator.clipboard.writeText(`${BASE_URL}/gallery/photo/${id}`);
+      const currentURL = `${window.location.origin}/gallery/photo/${id}`;
+      navigator.clipboard.writeText(currentURL);
       enqueueSnackbar("Link copied!", { variant: "success" });
     },
     []
