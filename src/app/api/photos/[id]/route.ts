@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import createHttpError               from "http-errors";
 import { withErrorHandler }          from "@api/withErrorHandler";
+import { withAuth }                  from "@api/withAuth";
 import { prisma }                    from "@utils/prisma";
 import { cloudinary }                from "@utils/cloudinary";
 import { Photo }                     from "@typings/photos";
@@ -9,11 +10,11 @@ interface Params {
   id: string;
 }
 
-export const DELETE = withErrorHandler(async (request: NextRequest, { params }: { params: Params }) => {
+export const DELETE = withErrorHandler(withAuth(async (request: NextRequest, { params }: { params: Params }) => {
   const photo = await prisma.photo.delete({ where: { id: params.id } });
   await cloudinary.v2.uploader.destroy(photo.publicId);
   return NextResponse.json({});
-});
+}));
 
 export const GET = withErrorHandler(async (request: NextRequest, { params }: { params: Params }) => {
   if (params.id.length !== 24) {

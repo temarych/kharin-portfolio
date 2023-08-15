@@ -2,6 +2,7 @@ import { NextRequest, NextResponse }                from "next/server";
 import createHttpError                              from "http-errors";
 import { UploadApiOptions, UploadResponseCallback } from "cloudinary";
 import { withErrorHandler }                         from "@api/withErrorHandler";
+import { withAuth }                                 from "@api/withAuth";
 import { cloudinary }                               from "@utils/cloudinary";
 import { prisma }                                   from "@utils/prisma";
 import { Photo }                                    from "@typings/photos";
@@ -41,7 +42,7 @@ const uploadFile = async (file: File): Promise<FileInfo> => {
   });
 };
 
-export const POST = withErrorHandler(async (request: NextRequest) => {
+export const POST = withErrorHandler(withAuth(async (request: NextRequest) => {
   const uploadDate = new Date();
   const formData   = await request.formData();
   const file       = formData.get("photo") as File;
@@ -56,7 +57,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   const photo    = new Photo({ ...dbPhoto, url: photoUrl });
 
   return NextResponse.json({ ...photo });
-});
+}));
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
   const limit     = 8;
