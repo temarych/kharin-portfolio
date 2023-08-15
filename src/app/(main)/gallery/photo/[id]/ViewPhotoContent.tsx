@@ -15,8 +15,8 @@ import { Link }                           from "@components/Link";
 import { Button }                         from "@components/Button";
 import { PhotoDetail }                    from "../../PhotoDetail";
 
-const BASE_URL = process.env.VERCEL_URL 
-  ? `https://${process.env.VERCEL_URL}` 
+const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL 
+  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` 
   : process.env.NEXT_PUBLIC_BASE_URL as string;
 
 export const ViewPhotoContent = () => {
