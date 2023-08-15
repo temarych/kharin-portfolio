@@ -1,41 +1,51 @@
 "use client";
 
-import { useCallback, useState }          from "react";
-import Image                              from "next/image";
-import { useParams, useRouter }           from "next/navigation";
-import { enqueueSnackbar }                from "notistack";
-import { HiChevronLeft, HiLink, HiTrash } from "react-icons/hi";
-import { useAuth }                        from "@hooks/useAuth";
-import { usePhotos }                      from "@hooks/usePhotos";
-import { usePhoto }                       from "@hooks/usePhoto";
-import { revalidate }                     from "@utils/revalidate";
-import { IconButton }                     from "@components/IconButton";
-import { CircularProgress }               from "@components/CircularProgress";
-import { Link }                           from "@components/Link";
-import { Button }                         from "@components/Button";
-import { PhotoDetail }                    from "../../PhotoDetail";
+import { useCallback, useState } from "react";
+import Image                     from "next/image";
+import { useParams, useRouter }  from "next/navigation";
+import { enqueueSnackbar }       from "notistack";
+import { 
+  HiChevronLeft, 
+  HiLink, 
+  HiTrash 
+}                                from "react-icons/hi";
+import { useAuth }               from "@hooks/useAuth";
+import { usePhotos }             from "@hooks/usePhotos";
+import { usePhoto }              from "@hooks/usePhoto";
+import { useGalleryPreview }     from "@hooks/useGalleryPreview";
+import { revalidate }            from "@utils/revalidate";
+import { IconButton }            from "@components/IconButton";
+import { CircularProgress }      from "@components/CircularProgress";
+import { Link }                  from "@components/Link";
+import { Button }                from "@components/Button";
+import { PhotoDetail }           from "../../PhotoDetail";
 
 export const ViewPhotoContent = () => {
-  const router                      = useRouter();
-  const params                      = useParams();
-  const id                          = params.id as string;
-  const { isAuthorized }            = useAuth();
-  const { refreshPhotos }           = usePhotos();
-  const { photo, refreshPhoto }     = usePhoto(id);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const router                                         = useRouter();
+  const params                                         = useParams();
+  const id                                             = params.id as string;
+  const { isAuthorized }                               = useAuth();
+  const { refreshPhotos }                              = usePhotos();
+  const { refreshPhotos: refreshGalleryPreviewPhotos } = useGalleryPreview();
+  const { photo, refreshPhoto }                        = usePhoto(id);
+  const [isDeleting, setIsDeleting]                    = useState(false);
 
   const handleDelete = useCallback(
     async () => {
       setIsDeleting(true);
-      await fetch(`/api/photos/${id}`, { method: "DELETE" });
+      await fetch(`/api/gallery/photos/${id}`, { method: "DELETE" });
       await refreshPhoto();
       setIsDeleting(false);
       enqueueSnackbar("Deleted!", { variant: "success" });
-      await refreshPhotos();
-      await revalidate("photos");
-      await revalidate(`photo/${id}`);
+      await Promise.all([
+        refreshPhotos(),
+        refreshGalleryPreviewPhotos(),
+        revalidate("preview"),
+        revalidate("photos"),
+        revalidate(`photo/${id}`)
+      ]);
     },
-    []
+    [id, refreshPhoto, refreshPhotos, refreshGalleryPreviewPhotos]
   );
 
   const handleCopyLink = useCallback(
@@ -44,7 +54,7 @@ export const ViewPhotoContent = () => {
       navigator.clipboard.writeText(currentURL);
       enqueueSnackbar("Link copied!", { variant: "success" });
     },
-    []
+    [id]
   );
 
   if (!photo) {

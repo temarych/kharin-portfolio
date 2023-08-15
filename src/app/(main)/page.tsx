@@ -1,42 +1,25 @@
-"use client";
+import { SWRConfiguration } from "swr";
+import { SWRProvider }      from "@components/SWRProvider";
+import { HomeContent }      from "./HomeContent";
 
-import { useRef }          from "react";
-import { useInView }       from "framer-motion";
-import { Section }         from "@components/Section";
-import { Footer }          from "./Footer";
-import { Showcase }        from "./Showcase";
-import { TechGrid }        from "./TechGrid";
-import { SkillGrid }       from "./SkillGrid";
-import { ReviewSlider }    from "./ReviewSlider";
-import { GalleryShowcase } from "./GalleryShowcase";
-import { TraitGrid }       from "./TraitGrid";
-import { AnchorMask }      from  "./AnchorMask";
+const BASE_URL = process.env.VERCEL_URL 
+  ? `https://${process.env.VERCEL_URL}` 
+  : process.env.NEXT_PUBLIC_BASE_URL as string;
 
-const Home = () => {
-  const showcaseRef      = useRef<HTMLElement>(null);
-  const isShowcaseInView = useInView(showcaseRef);
+const Home = async () => {
+  const response        = await fetch(`${BASE_URL}/api/gallery/preview`, { next: { tags: ["preview"] } });
+  const previewResponse = await response.json();
+
+  const swrConfig: SWRConfiguration = {
+    fallback: {
+      "/api/gallery/preview": previewResponse
+    }
+  };
 
   return (
-    <div className="flex flex-col pt-16">
-      <Showcase ref={showcaseRef} />
-      <Section title="Technologies">
-        <TechGrid />
-      </Section>
-      <Section title="Skills" isFilled>
-        <SkillGrid />
-      </Section>
-      <Section title="Traits">
-        <TraitGrid />
-      </Section>
-      <Section title="Reviews" isFilled>
-        <ReviewSlider />
-      </Section>
-      <Section title="Gallery">
-        <GalleryShowcase />
-      </Section>
-      <Footer />
-      <AnchorMask isAnchorShown={!isShowcaseInView} />
-    </div>
+    <SWRProvider config={swrConfig}>
+      <HomeContent />
+    </SWRProvider>
   );
 };
 

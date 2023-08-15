@@ -1,13 +1,13 @@
 "use client";
 
-import { useRef }       from "react";
-import { useScroll }    from "framer-motion";
-import { usePhotos }    from "@hooks/usePhotos";
-import { GalleryPhoto } from "./GalleryPhoto";
+import { useRef }            from "react";
+import { useScroll }         from "framer-motion";
+import { useGalleryPreview } from "@hooks/useGalleryPreview";
+import { GalleryPhoto }      from "./GalleryPhoto";
 
 export const GalleryPreview = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const { photos } = usePhotos();
+  const { photos } = useGalleryPreview();
 
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
@@ -16,7 +16,7 @@ export const GalleryPreview = () => {
 
   return (
     <div ref={wrapperRef} className="flex flex-row items-center justify-center w-full">
-      {photos.slice(0, 6).map((photo, index) => (
+      {photos.length ? photos.map((photo, index) => (
         <div key={photo.id} className="relative flex-1 flex flex-row items-center justify-center min-h-[30em]">
           <GalleryPhoto 
             order           = {index + 1}
@@ -26,7 +26,9 @@ export const GalleryPreview = () => {
             src             = {photo.url}
           />
         </div>
-      ))}
+      )) : (
+        <div className="min-h-[25em]" />
+      )}
     </div>
   );
 };

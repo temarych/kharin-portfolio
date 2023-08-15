@@ -1,6 +1,8 @@
 import { Photo as DbPhoto } from "@prisma/client";
 
-export type IPhoto = Omit<DbPhoto, "publicId"> & { url: string };
+export interface IPhoto extends Omit<DbPhoto, "publicId"> {
+  url: string;
+}
 
 export class Photo implements IPhoto {
   public id        : string;
@@ -19,5 +21,17 @@ export class Photo implements IPhoto {
     this.size       = photo.size;
     this.format     = photo.format;
     this.uploadDate = photo.uploadDate;
+  }
+}
+
+export type IPhotoPreview = Pick<IPhoto, "id" | "url">;
+
+export class PhotoPreview implements IPhotoPreview {
+  public id : string;
+  public url: string;
+
+  constructor(photoPreview: IPhotoPreview) {
+    this.id  = photoPreview.id;
+    this.url = photoPreview.url;
   }
 }

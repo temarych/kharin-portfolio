@@ -4,7 +4,7 @@ import { IPhoto }      from "@typings/photos";
 import { fetcher }     from "@utils/fetcher";
 
 export const usePhoto = (id: string) => {
-  const { data, mutate, error, isLoading } = useSWR(`/api/photos/${id}`, fetcher, { shouldRetryOnError: false });
+  const { data, mutate, error, isLoading } = useSWR(`/api/gallery/photos/${id}`, fetcher, { shouldRetryOnError: false });
   const photo                              = (!error && data) ? data as IPhoto : null;
 
   const refreshPhoto = useCallback(

@@ -21,7 +21,9 @@ export const GET = withErrorHandler(async (request: NextRequest, { params }: { p
     throw new createHttpError.BadRequest("Invalid photo id");
   } 
   
-  const dbPhoto = await prisma.photo.findFirst({ where: { id: params.id } });
+  const dbPhoto = await prisma.photo.findFirst({ 
+    where: { id: params.id },
+  });
 
   if (!dbPhoto) {
     throw new createHttpError.NotFound("Photo not found");
