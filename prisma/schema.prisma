@@ -19,21 +19,11 @@ model User {
 }
 
 model Photo {
-  id            String       @id @default(auto()) @map("_id") @db.ObjectId
-  publicId      String
-  width         Int
-  height        Int
-  format        String
-  size          Int
-  uploadDate    DateTime
-  collections   Collection[] @relation(fields: [collectionIds], references: [id])
-  collectionIds String[]     @db.ObjectId @default([])
-}
-
-model Collection {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  type     String
-  photos   Photo[]  @relation(fields: [photoIds], references: [id])
-  photoIds String[] @db.ObjectId @default([])
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  publicId   String
+  width      Int
+  height     Int
+  format     String
+  size       Int
+  uploadDate DateTime
 }

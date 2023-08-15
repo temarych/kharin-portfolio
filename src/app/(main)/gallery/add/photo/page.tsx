@@ -3,14 +3,17 @@
 import { useCallback, useEffect, useState } from "react";
 import { enqueueSnackbar }                  from "notistack";
 import { revalidate }                       from "@utils/revalidate";
+import { IPhoto }                           from "@typings/photos";
 import { usePhotos }                        from "@hooks/usePhotos";
+import { useGalleryPreview }                from "@hooks/useGalleryPreview";
 import { Photo, PickPhoto }                 from "./PickPhoto";
 import { ViewPhoto }                        from "./ViewPhoto";
 
 const AddPhoto = () => {
-  const [isUploading, setIsUploading] = useState(false);
-  const [photo, setPhotoPlain]        = useState<Photo | null>(null);
-  const { refreshPhotos }             = usePhotos();
+  const [isUploading, setIsUploading]                  = useState(false);
+  const [photo, setPhotoPlain]                         = useState<Photo | null>(null);
+  const { refreshPhotos }                              = usePhotos();
+  const { refreshPhotos: refreshGalleryPreviewPhotos } = useGalleryPreview();
 
   useEffect(
     () => () => {
@@ -43,17 +46,23 @@ const AddPhoto = () => {
       const formData = new FormData();
       formData.set("photo", photo.file);
       setIsUploading(true);
-      await fetch("/api/photos", {
+      const response = await fetch("/api/gallery/photos", {
         method: "POST",
         body  : formData
       });
+      const newPhoto = await response.json() as IPhoto;
       setPhoto(null);
       setIsUploading(false);
       enqueueSnackbar("Uploaded!", { variant: "success" });
-      await refreshPhotos();
-      await revalidate("photos");
+      await Promise.all([
+        refreshPhotos(),
+        refreshGalleryPreviewPhotos(),
+        revalidate("preview"),
+        revalidate("photos"),
+        revalidate(`photo/${newPhoto.id}`)
+      ]);
     },
-    [photo, isUploading, refreshPhotos]
+    [photo, isUploading, refreshPhotos, setPhoto, refreshGalleryPreviewPhotos]
   );
 
   return !photo ? (

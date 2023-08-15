@@ -14,12 +14,12 @@ interface ViewPhotoProps {
 
 const ViewPhoto = async ({ params }: ViewPhotoProps) => {
   const id       = params.id;
-  const response = await fetch(`${BASE_URL}/api/photos/${id}`, { next: { tags: [`photo/${id}`] } });
+  const response = await fetch(`${BASE_URL}/api/gallery/photos/${id}`, { next: { tags: [`photo/${id}`] } });
   const photo    = response.ok ? await response.json() : null;
 
   const swrConfig: SWRConfiguration = {
     fallback: {
-      [`/api/photos/${id}`]: photo
+      [`/api/gallery/photos/${id}`]: photo
     }
   };
 

@@ -13,7 +13,7 @@ export interface IGetPhotoResponse {
 export const usePhotos = () => {
   const { data, setSize, size, mutate, isValidating } = useSWRInfinite<IGetPhotoResponse>((pageIndex, prevPageData) => {
     if (prevPageData && prevPageData.page === prevPageData.pages) return null;
-    return `/api/photos?page=${pageIndex + 1}`;
+    return `/api/gallery/photos?page=${pageIndex + 1}`;
   }, fetcher, {
     shouldRetryOnError: false
   });

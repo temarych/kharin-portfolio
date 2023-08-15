@@ -6,7 +6,6 @@ import { withAuth }                                 from "@api/withAuth";
 import { cloudinary }                               from "@utils/cloudinary";
 import { prisma }                                   from "@utils/prisma";
 import { Photo, PhotoPreview }                      from "@typings/photos";
-import { CollectionPreview }                        from "@typings/collections";
 
 interface FileInfo {
   publicId: string;
@@ -51,13 +50,11 @@ export const POST = withErrorHandler(withAuth(async (request: NextRequest) => {
   const fileInfo = await uploadFile(file);
 
   const dbPhoto = await prisma.photo.create({ 
-    data   : { ...fileInfo, uploadDate },
-    include: { collections: true }
+    data: { ...fileInfo, uploadDate }
   });
 
-  const url         = cloudinary.v2.url(dbPhoto.publicId);
-  const collections = dbPhoto.collections.map(collection => new CollectionPreview(collection));
-  const photo       = new Photo({ ...dbPhoto, url, collections });
+  const url    = cloudinary.v2.url(dbPhoto.publicId);
+  const photo  = new Photo({ ...dbPhoto, url });
 
   return NextResponse.json({ ...photo });
 }));
