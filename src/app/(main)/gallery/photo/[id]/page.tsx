@@ -2,8 +2,8 @@ import { SWRConfiguration }    from "swr";
 import { SWRProvider }         from "@components/SWRProvider";
 import { ViewPhotoContent }    from "./ViewPhotoContent";
 
-const BASE_URL = process.env.VERCEL_URL 
-  ? `https://${process.env.VERCEL_URL}` 
+const BASE_URL = process.env.NEXT_PUBLIC_VERCEL_URL 
+  ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` 
   : process.env.NEXT_PUBLIC_BASE_URL as string;
 
 interface ViewPhotoProps {
