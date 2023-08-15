@@ -79,8 +79,9 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
   }
 
   const dbPhotos = await prisma.photo.findMany({ 
-    skip: (page - 1) * limit, 
-    take: limit 
+    skip   : (page - 1) * limit, 
+    take   : limit,
+    orderBy: [{ uploadDate: "desc" }]
   });
 
   const photos = dbPhotos.map(photo => {
